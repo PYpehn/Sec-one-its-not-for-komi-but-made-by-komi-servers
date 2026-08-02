@@ -1,10 +1,9 @@
 -- ============================================================
---  FLUENTPRO – ULTIMATE PACK (FULL + FIXED BUTTON)
---  All features, visible draggable open/close button.
+--  FLUENTPRO – ULTIMATE (COMPACT, NO CUSTOM THEMES)
+--  All features, simpler button, no huge theme definitions.
 -- ============================================================
 
 local Fluent = loadstring(game:HttpGet("https://github.com/StyearX/Fluent-modded/releases/download/1.5.1/FluentPro"))()
-
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -13,304 +12,13 @@ local Lighting = game:GetService("Lighting")
 local Camera = workspace.CurrentCamera
 local VirtualInputManager = pcall(function() return game:GetService("VirtualInputManager") end) and game:GetService("VirtualInputManager") or nil
 
-local function Notify(title, content, ntype, icon, duration)
-    Fluent:Notify({Title=title, Content=content, Type=ntype or "Info", Icon=icon, Duration=duration or 3})
-end
+local function Notify(t,c,ntype,icon,dur) Fluent:Notify({Title=t, Content=c, Type=ntype or "Info", Icon=icon, Duration=dur or 3}) end
 
--- ===================== CUSTOM THEMES =====================
-Fluent:RegisterCustomTheme("NeonBlue", {
-    Accent = Color3.fromRGB(0, 180, 255),
-    AcrylicMain = Color3.fromRGB(10, 14, 28),
-    AcrylicBorder = Color3.fromRGB(0, 100, 180),
-    AcrylicGradient = ColorSequence.new(Color3.fromRGB(10, 14, 28), Color3.fromRGB(5, 8, 20)),
-    AcrylicNoise = 0.75,
-    TitleBarLine = Color3.fromRGB(0, 100, 180),
-    Tab = Color3.fromRGB(15, 22, 48),
-    Element = Color3.fromRGB(12, 18, 40),
-    ElementBorder = Color3.fromRGB(0, 80, 160),
-    InElementBorder = Color3.fromRGB(0, 120, 220),
-    ElementTransparency = 0.82,
-    ToggleSlider = Color3.fromRGB(20, 30, 70),
-    ToggleToggled = Color3.fromRGB(0, 180, 255),
-    SliderRail = Color3.fromRGB(20, 30, 70),
-    DropdownFrame = Color3.fromRGB(10, 16, 36),
-    DropdownHolder = Color3.fromRGB(6, 10, 24),
-    DropdownBorder = Color3.fromRGB(0, 80, 160),
-    DropdownOption = Color3.fromRGB(14, 22, 50),
-    Keybind = Color3.fromRGB(14, 22, 50),
-    Input = Color3.fromRGB(8, 14, 32),
-    InputFocused = Color3.fromRGB(4, 8, 20),
-    InputIndicator = Color3.fromRGB(0, 120, 220),
-    Dialog = Color3.fromRGB(6, 10, 24),
-    DialogHolder = Color3.fromRGB(4, 8, 20),
-    DialogHolderLine = Color3.fromRGB(0, 70, 140),
-    DialogButton = Color3.fromRGB(10, 16, 38),
-    DialogButtonBorder = Color3.fromRGB(0, 80, 160),
-    DialogBorder = Color3.fromRGB(0, 80, 160),
-    DialogInput = Color3.fromRGB(8, 14, 32),
-    DialogInputLine = Color3.fromRGB(0, 120, 220),
-    Text = Color3.fromRGB(230, 245, 255),
-    SubText = Color3.fromRGB(120, 170, 220),
-    Hover = Color3.fromRGB(20, 36, 80),
-    HoverChange = 0.05,
-    ShineEnabled = true,
-    Shine = {
-        Speed = 0.5,
-        RotationSpeed = 25,
-        ColorSequence = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 60, 130)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 180, 255)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 60, 130)),
-        }),
-    },
-    StrokeShine = true,
-    StrokeDark = Color3.fromRGB(0, 60, 130),
-    ButtonGradient = {
-        Background = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 30, 80)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 10, 40)),
-        }),
-        Stroke = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 120, 220)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 180, 255)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 120, 220)),
-        }),
-    },
-})
-
-Fluent:RegisterCustomTheme("EmeraldDark", {
-    Accent = Color3.fromRGB(0, 220, 120),
-    AcrylicMain = Color3.fromRGB(8, 20, 14),
-    AcrylicBorder = Color3.fromRGB(0, 140, 70),
-    AcrylicGradient = ColorSequence.new(Color3.fromRGB(8, 20, 14), Color3.fromRGB(4, 12, 8)),
-    AcrylicNoise = 0.7,
-    TitleBarLine = Color3.fromRGB(0, 140, 70),
-    Tab = Color3.fromRGB(10, 28, 18),
-    Element = Color3.fromRGB(8, 22, 14),
-    ElementBorder = Color3.fromRGB(0, 110, 55),
-    InElementBorder = Color3.fromRGB(0, 180, 90),
-    ElementTransparency = 0.84,
-    ToggleSlider = Color3.fromRGB(14, 40, 24),
-    ToggleToggled = Color3.fromRGB(0, 220, 120),
-    SliderRail = Color3.fromRGB(14, 40, 24),
-    DropdownFrame = Color3.fromRGB(6, 18, 12),
-    DropdownHolder = Color3.fromRGB(4, 12, 8),
-    DropdownBorder = Color3.fromRGB(0, 110, 55),
-    DropdownOption = Color3.fromRGB(10, 28, 18),
-    Keybind = Color3.fromRGB(10, 28, 18),
-    Input = Color3.fromRGB(6, 18, 12),
-    InputFocused = Color3.fromRGB(3, 10, 7),
-    InputIndicator = Color3.fromRGB(0, 170, 85),
-    Dialog = Color3.fromRGB(4, 14, 9),
-    DialogHolder = Color3.fromRGB(3, 10, 6),
-    DialogHolderLine = Color3.fromRGB(0, 90, 45),
-    DialogButton = Color3.fromRGB(8, 20, 13),
-    DialogButtonBorder = Color3.fromRGB(0, 110, 55),
-    DialogBorder = Color3.fromRGB(0, 110, 55),
-    DialogInput = Color3.fromRGB(6, 18, 12),
-    DialogInputLine = Color3.fromRGB(0, 170, 85),
-    Text = Color3.fromRGB(220, 255, 235),
-    SubText = Color3.fromRGB(120, 200, 155),
-    Hover = Color3.fromRGB(14, 42, 26),
-    HoverChange = 0.05,
-    ShineEnabled = true,
-    Shine = {
-        Speed = 0.5,
-        RotationSpeed = 25,
-        ColorSequence = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 80, 40)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 220, 120)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 80, 40)),
-        }),
-    },
-    StrokeShine = false,
-    StrokeDark = Color3.fromRGB(0, 80, 40),
-    ButtonGradient = {
-        Background = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 50, 25)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 20, 10)),
-        }),
-        Stroke = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 150, 75)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(0, 220, 120)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 150, 75)),
-        }),
-    },
-})
-
-Fluent:RegisterCustomTheme("Sunset", {
-    Accent = Color3.fromRGB(255, 110, 50),
-    AcrylicMain = Color3.fromRGB(28, 16, 12),
-    AcrylicBorder = Color3.fromRGB(180, 80, 30),
-    AcrylicGradient = ColorSequence.new(Color3.fromRGB(28, 16, 12), Color3.fromRGB(14, 8, 6)),
-    AcrylicNoise = 0.7,
-    TitleBarLine = Color3.fromRGB(180, 80, 30),
-    Tab = Color3.fromRGB(36, 22, 16),
-    Element = Color3.fromRGB(30, 18, 13),
-    ElementBorder = Color3.fromRGB(160, 70, 25),
-    InElementBorder = Color3.fromRGB(220, 100, 45),
-    ElementTransparency = 0.82,
-    ToggleSlider = Color3.fromRGB(50, 30, 20),
-    ToggleToggled = Color3.fromRGB(255, 110, 50),
-    SliderRail = Color3.fromRGB(50, 30, 20),
-    DropdownFrame = Color3.fromRGB(24, 14, 10),
-    DropdownHolder = Color3.fromRGB(14, 8, 6),
-    DropdownBorder = Color3.fromRGB(160, 70, 25),
-    DropdownOption = Color3.fromRGB(36, 22, 16),
-    Keybind = Color3.fromRGB(36, 22, 16),
-    Input = Color3.fromRGB(24, 14, 10),
-    InputFocused = Color3.fromRGB(12, 7, 5),
-    InputIndicator = Color3.fromRGB(220, 100, 45),
-    Dialog = Color3.fromRGB(14, 8, 6),
-    DialogHolder = Color3.fromRGB(12, 7, 5),
-    DialogHolderLine = Color3.fromRGB(120, 55, 20),
-    DialogButton = Color3.fromRGB(28, 17, 12),
-    DialogButtonBorder = Color3.fromRGB(160, 70, 25),
-    DialogBorder = Color3.fromRGB(160, 70, 25),
-    DialogInput = Color3.fromRGB(24, 14, 10),
-    DialogInputLine = Color3.fromRGB(220, 100, 45),
-    Text = Color3.fromRGB(255, 240, 230),
-    SubText = Color3.fromRGB(220, 170, 145),
-    Hover = Color3.fromRGB(56, 34, 24),
-    HoverChange = 0.05,
-    ShineEnabled = true,
-    Shine = {
-        Speed = 0.5,
-        RotationSpeed = 25,
-        ColorSequence = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(120, 50, 15)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 150, 80)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(120, 50, 15)),
-        }),
-    },
-    StrokeShine = true,
-    StrokeDark = Color3.fromRGB(120, 50, 15),
-    ButtonGradient = {
-        Background = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(120, 50, 15)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(60, 25, 8)),
-        }),
-        Stroke = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(220, 100, 45)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 150, 80)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(220, 100, 45)),
-        }),
-    },
-})
-
-Fluent:RegisterCustomTheme("SlateStatic", {
-    Accent = Color3.fromRGB(140, 150, 165),
-    AcrylicMain = Color3.fromRGB(22, 24, 28),
-    AcrylicBorder = Color3.fromRGB(70, 75, 85),
-    AcrylicGradient = ColorSequence.new(Color3.fromRGB(22, 24, 28), Color3.fromRGB(14, 15, 18)),
-    AcrylicNoise = 0.6,
-    TitleBarLine = Color3.fromRGB(70, 75, 85),
-    Tab = Color3.fromRGB(28, 30, 35),
-    Element = Color3.fromRGB(24, 26, 30),
-    ElementBorder = Color3.fromRGB(60, 64, 72),
-    InElementBorder = Color3.fromRGB(90, 96, 108),
-    ElementTransparency = 0.82,
-    ToggleSlider = Color3.fromRGB(40, 43, 48),
-    ToggleToggled = Color3.fromRGB(140, 150, 165),
-    SliderRail = Color3.fromRGB(40, 43, 48),
-    DropdownFrame = Color3.fromRGB(20, 22, 26),
-    DropdownHolder = Color3.fromRGB(14, 15, 18),
-    DropdownBorder = Color3.fromRGB(60, 64, 72),
-    DropdownOption = Color3.fromRGB(28, 30, 35),
-    Keybind = Color3.fromRGB(28, 30, 35),
-    Input = Color3.fromRGB(20, 22, 26),
-    InputFocused = Color3.fromRGB(12, 13, 16),
-    InputIndicator = Color3.fromRGB(90, 96, 108),
-    Dialog = Color3.fromRGB(14, 15, 18),
-    DialogHolder = Color3.fromRGB(12, 13, 16),
-    DialogHolderLine = Color3.fromRGB(50, 54, 62),
-    DialogButton = Color3.fromRGB(26, 28, 33),
-    DialogButtonBorder = Color3.fromRGB(60, 64, 72),
-    DialogBorder = Color3.fromRGB(60, 64, 72),
-    DialogInput = Color3.fromRGB(20, 22, 26),
-    DialogInputLine = Color3.fromRGB(90, 96, 108),
-    Text = Color3.fromRGB(235, 237, 240),
-    SubText = Color3.fromRGB(150, 155, 165),
-    Hover = Color3.fromRGB(34, 37, 42),
-    HoverChange = 0.04,
-    ButtonGradient = {
-        Background = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 43, 48)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(24, 26, 30)),
-        }),
-        Stroke = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(90, 96, 108)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(140, 150, 165)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(90, 96, 108)),
-        }),
-    },
-})
-
-Fluent:RegisterCustomTheme("SlateAnimated", {
-    Accent = Color3.fromRGB(140, 150, 165),
-    AcrylicMain = Color3.fromRGB(22, 24, 28),
-    AcrylicBorder = Color3.fromRGB(70, 75, 85),
-    AcrylicGradient = ColorSequence.new(Color3.fromRGB(22, 24, 28), Color3.fromRGB(14, 15, 18)),
-    AcrylicNoise = 0.6,
-    TitleBarLine = Color3.fromRGB(70, 75, 85),
-    Tab = Color3.fromRGB(28, 30, 35),
-    Element = Color3.fromRGB(24, 26, 30),
-    ElementBorder = Color3.fromRGB(60, 64, 72),
-    InElementBorder = Color3.fromRGB(90, 96, 108),
-    ElementTransparency = 0.82,
-    ToggleSlider = Color3.fromRGB(40, 43, 48),
-    ToggleToggled = Color3.fromRGB(140, 150, 165),
-    SliderRail = Color3.fromRGB(40, 43, 48),
-    DropdownFrame = Color3.fromRGB(20, 22, 26),
-    DropdownHolder = Color3.fromRGB(14, 15, 18),
-    DropdownBorder = Color3.fromRGB(60, 64, 72),
-    DropdownOption = Color3.fromRGB(28, 30, 35),
-    Keybind = Color3.fromRGB(28, 30, 35),
-    Input = Color3.fromRGB(20, 22, 26),
-    InputFocused = Color3.fromRGB(12, 13, 16),
-    InputIndicator = Color3.fromRGB(90, 96, 108),
-    Dialog = Color3.fromRGB(14, 15, 18),
-    DialogHolder = Color3.fromRGB(12, 13, 16),
-    DialogHolderLine = Color3.fromRGB(50, 54, 62),
-    DialogButton = Color3.fromRGB(26, 28, 33),
-    DialogButtonBorder = Color3.fromRGB(60, 64, 72),
-    DialogBorder = Color3.fromRGB(60, 64, 72),
-    DialogInput = Color3.fromRGB(20, 22, 26),
-    DialogInputLine = Color3.fromRGB(90, 96, 108),
-    Text = Color3.fromRGB(235, 237, 240),
-    SubText = Color3.fromRGB(150, 155, 165),
-    Hover = Color3.fromRGB(34, 37, 42),
-    HoverChange = 0.04,
-    ShineEnabled = true,
-    Shine = {
-        Speed = 0.5,
-        RotationSpeed = 25,
-        ColorSequence = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(50, 54, 62)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(140, 150, 165)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 54, 62)),
-        }),
-    },
-    StrokeShine = true,
-    StrokeDark = Color3.fromRGB(50, 54, 62),
-    ButtonGradient = {
-        Background = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(40, 43, 48)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(24, 26, 30)),
-        }),
-        Stroke = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, Color3.fromRGB(90, 96, 108)),
-            ColorSequenceKeypoint.new(0.5, Color3.fromRGB(140, 150, 165)),
-            ColorSequenceKeypoint.new(1, Color3.fromRGB(90, 96, 108)),
-        }),
-    },
-})
-
--- ===================== MAIN WINDOW =====================
+-- Main Window
 local Window = Fluent:CreateWindow({
     Title = "FluentPro",
-    SubTitle = "Ultimate Pack (Final)",
-    Version = "v3.3",
+    SubTitle = "Ultimate Pack (Compact)",
+    Version = "v3.4",
     TabWidth = 130,
     Size = UDim2.fromOffset(500, 520),
     Acrylic = true,
@@ -324,12 +32,9 @@ local Window = Fluent:CreateWindow({
     UserInfoColor = Color3.fromRGB(180, 10, 20),
     BackgroundImages = "rbxassetid://105930635591531"
 })
+Fluent:SetErrorHandler(function(msg) pcall(function() Notify("Error", tostring(msg), "Error", nil, 5) end) end)
 
-Fluent:SetErrorHandler(function(msg, fullErr)
-    pcall(function() Notify("Error", tostring(msg), "Error", nil, 5) end)
-end)
-
--- ===================== TABS =====================
+-- Tabs
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "solar/home-bold" }),
     Movement = Window:AddTab({ Title = "Movement", Icon = "solar/running-bold" }),
@@ -341,581 +46,165 @@ local Tabs = {
     Settings = Window:AddTab({ Title = "Settings", Icon = "solar/settings-bold" }),
 }
 
--- ===================== MAIN TAB =====================
+-- ===== MAIN TAB =====
 local secSpeed = Tabs.Main:AddSection("Speed", "solar/running-bold")
-secSpeed:AddSlider("WalkSpeed", {
-    Title = "Walk Speed", Icon = "solar/running-bold",
-    Min = 1, Max = 500, Default = 16, Rounding = 0,
-    Callback = function(v)
-        local chr = LocalPlayer.Character
-        if chr and chr:FindFirstChild("Humanoid") then chr.Humanoid.WalkSpeed = v end
-    end,
-})
-
+secSpeed:AddSlider("WalkSpeed", {Title="Walk Speed", Min=1, Max=500, Default=16, Callback=function(v) local c=LocalPlayer.Character if c and c:FindFirstChild("Humanoid") then c.Humanoid.WalkSpeed=v end end})
 local secJump = Tabs.Main:AddSection("Jump", "solar/arrow-up-bold")
-secJump:AddSlider("JumpPower", {
-    Title = "Jump Power", Icon = "solar/arrow-up-bold",
-    Min = 10, Max = 500, Default = 50, Rounding = 0,
-    Callback = function(v)
-        local chr = LocalPlayer.Character
-        if chr and chr:FindFirstChild("Humanoid") then chr.Humanoid.JumpPower = v end
-    end,
-})
+secJump:AddSlider("JumpPower", {Title="Jump Power", Min=10, Max=500, Default=50, Callback=function(v) local c=LocalPlayer.Character if c and c:FindFirstChild("Humanoid") then c.Humanoid.JumpPower=v end end})
 
 -- Fly
-local flyEnabled = false
-local flySpeed = 50
-local flyConnection
+local flyEnabled, flySpeed, flyConnection = false, 50, nil
 local function startFly()
-    local player = LocalPlayer
-    local char = player.Character or player.CharacterAdded:Wait()
-    local humanoid = char:WaitForChild("Humanoid")
-    local rootPart = char:WaitForChild("HumanoidRootPart")
-    local bodyGyro = Instance.new("BodyGyro")
-    bodyGyro.MaxTorque = Vector3.new(1,1,1)*40000
-    bodyGyro.CFrame = rootPart.CFrame
-    bodyGyro.Parent = rootPart
-    local bodyVelocity = Instance.new("BodyVelocity")
-    bodyVelocity.MaxForce = Vector3.new(1,1,1)*40000
-    bodyVelocity.Velocity = Vector3.zero
-    bodyVelocity.Parent = rootPart
-    humanoid.PlatformStand = true
+    local char = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+    local hum = char:WaitForChild("Humanoid")
+    local root = char:WaitForChild("HumanoidRootPart")
+    local gyro = Instance.new("BodyGyro"); gyro.MaxTorque = Vector3.new(1,1,1)*40000; gyro.CFrame = root.CFrame; gyro.Parent = root
+    local vel = Instance.new("BodyVelocity"); vel.MaxForce = Vector3.new(1,1,1)*40000; vel.Velocity = Vector3.zero; vel.Parent = root
+    hum.PlatformStand = true
     flyConnection = RunService.RenderStepped:Connect(function()
         if not flyEnabled or not char.Parent then flyConnection:Disconnect() return end
-        local camera = Camera
-        bodyGyro.CFrame = camera.CFrame
-        local moveDir = Vector3.zero
-        if UserInputService:IsKeyDown(Enum.KeyCode.W) then moveDir += camera.CFrame.LookVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.S) then moveDir -= camera.CFrame.LookVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.A) then moveDir -= camera.CFrame.RightVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.D) then moveDir += camera.CFrame.RightVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then moveDir += Vector3.new(0,1,0) end
-        if UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then moveDir -= Vector3.new(0,1,0) end
-        bodyVelocity.Velocity = (moveDir.Magnitude > 0 and moveDir.Unit or Vector3.zero) * flySpeed
+        local cam = Camera
+        gyro.CFrame = cam.CFrame
+        local dir = Vector3.zero
+        if UserInputService:IsKeyDown(Enum.KeyCode.W) then dir += cam.CFrame.LookVector end
+        if UserInputService:IsKeyDown(Enum.KeyCode.S) then dir -= cam.CFrame.LookVector end
+        if UserInputService:IsKeyDown(Enum.KeyCode.A) then dir -= cam.CFrame.RightVector end
+        if UserInputService:IsKeyDown(Enum.KeyCode.D) then dir += cam.CFrame.RightVector end
+        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then dir += Vector3.new(0,1,0) end
+        if UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then dir -= Vector3.new(0,1,0) end
+        vel.Velocity = (dir.Magnitude>0 and dir.Unit or Vector3.zero) * flySpeed
     end)
-    local function onCharRemoved() flyEnabled = false; if flyConnection then flyConnection:Disconnect() end end
-    humanoid.Died:Connect(onCharRemoved)
-    char.AncestryChanged:Connect(function(_, parent) if not parent then onCharRemoved() end end)
+    local function clean() flyEnabled=false; if flyConnection then flyConnection:Disconnect() end end
+    hum.Died:Connect(clean); char.AncestryChanged:Connect(function(_,p) if not p then clean() end end)
 end
 local function stopFly()
-    flyEnabled = false
-    if flyConnection then flyConnection:Disconnect(); flyConnection = nil end
-    local char = LocalPlayer.Character
-    if char then
-        local humanoid = char:FindFirstChild("Humanoid")
-        if humanoid then humanoid.PlatformStand = false end
-        local rootPart = char:FindFirstChild("HumanoidRootPart")
-        if rootPart then
-            local bv = rootPart:FindFirstChild("BodyVelocity"); if bv then bv:Destroy() end
-            local bg = rootPart:FindFirstChild("BodyGyro"); if bg then bg:Destroy() end
+    flyEnabled=false; if flyConnection then flyConnection:Disconnect(); flyConnection=nil end
+    local char=LocalPlayer.Character; if char then
+        local hum=char:FindFirstChild("Humanoid"); if hum then hum.PlatformStand=false end
+        local root=char:FindFirstChild("HumanoidRootPart")
+        if root then
+            local bv=root:FindFirstChild("BodyVelocity"); if bv then bv:Destroy() end
+            local bg=root:FindFirstChild("BodyGyro"); if bg then bg:Destroy() end
         end
     end
 end
 local secFly = Tabs.Main:AddSection("Fly", "solar/rocket-bold")
-secFly:AddToggle("FlyEnabled", {
-    Title = "Enable Fly", Icon = "solar/rocket-bold", Default = false,
-    Callback = function(v) flyEnabled = v; if v then startFly() else stopFly() end end
-})
-secFly:AddSlider("FlySpeed", {
-    Title = "Fly Speed", Icon = "solar/speedometer-bold",
-    Min = 10, Max = 200, Default = 50, Rounding = 0,
-    Callback = function(v) flySpeed = v end
-})
+secFly:AddToggle("FlyEnabled", {Title="Enable Fly", Default=false, Callback=function(v) flyEnabled=v; if v then startFly() else stopFly() end end})
+secFly:AddSlider("FlySpeed", {Title="Fly Speed", Min=10, Max=200, Default=50, Callback=function(v) flySpeed=v end})
 
--- ===================== MOVEMENT TAB =====================
-local moveSection = Tabs.Movement:AddSection("Abilities", "solar/arrows-bold")
-local noclipEnabled = false
-moveSection:AddToggle("Noclip", {
-    Title = "Noclip", Icon = "solar/arrows-bold", Default = false,
-    Callback = function(v)
-        noclipEnabled = v
-        local char = LocalPlayer.Character
-        if char then
-            for _, part in ipairs(char:GetDescendants()) do
-                if part:IsA("BasePart") then part.CanCollide = not v end
-            end
-        end
-    end,
-})
-moveSection:AddKeybind("DashKey", {
-    Title = "Dash (forward)", Icon = "solar/record-bold", Default = Enum.KeyCode.Q,
-    Callback = function()
-        local char = LocalPlayer.Character
-        if char then
-            local root = char:FindFirstChild("HumanoidRootPart")
-            if root then root.CFrame = root.CFrame + Camera.CFrame.LookVector * 50 end
-        end
-    end,
-})
-local bunnyHop = false
-moveSection:AddToggle("BunnyHop", {
-    Title = "Bunny Hop", Icon = "solar/arrow-up-bold", Default = false,
-    Callback = function(v) bunnyHop = v end,
-})
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if gameProcessed then return end
-    if input.KeyCode == Enum.KeyCode.Space and bunnyHop then
-        local char = LocalPlayer.Character
-        if char and char:FindFirstChild("Humanoid") then
-            local hum = char.Humanoid
-            if hum.FloorMaterial ~= Enum.Material.Air then hum:ChangeState(Enum.HumanoidStateType.Jumping) end
-        end
-    end
-end)
-local glideEnabled = false
-moveSection:AddToggle("Glide", {
-    Title = "Glide (slow fall)", Icon = "solar/cloud-bold", Default = false,
-    Callback = function(v) glideEnabled = v end,
-})
-RunService.Heartbeat:Connect(function()
-    if not glideEnabled then return end
-    local char = LocalPlayer.Character
-    if char and char:FindFirstChild("Humanoid") then
-        local hum = char.Humanoid
-        if hum.MoveDirection.Y < 0 then
-            hum:ChangeState(Enum.HumanoidStateType.FallingDown)
-            hum.PlatformStand = false
-        end
-    end
-end)
-local sprintMultiplier = 1.5
-local shiftHeld = false
-UserInputService.InputBegan:Connect(function(input) if input.KeyCode == Enum.KeyCode.LeftShift then shiftHeld = true end end)
-UserInputService.InputEnded:Connect(function(input) if input.KeyCode == Enum.KeyCode.LeftShift then shiftHeld = false end end)
-moveSection:AddSlider("SprintMultiplier", {
-    Title = "Sprint Multiplier", Icon = "solar/running-bold",
-    Min = 1, Max = 3, Default = 1.5, Rounding = 1,
-    Callback = function(v) sprintMultiplier = v end,
-})
-RunService.Heartbeat:Connect(function()
-    local char = LocalPlayer.Character
-    if char and char:FindFirstChild("Humanoid") then
-        local hum = char.Humanoid
-        if shiftHeld then hum.WalkSpeed = hum.WalkSpeed * sprintMultiplier end
-    end
-end)
+-- ===== MOVEMENT TAB =====
+local move = Tabs.Movement:AddSection("Abilities", "solar/arrows-bold")
+move:AddToggle("Noclip", {Title="Noclip", Default=false, Callback=function(v) local c=LocalPlayer.Character; if c then for _,p in ipairs(c:GetDescendants()) do if p:IsA("BasePart") then p.CanCollide = not v end end end end})
+move:AddKeybind("DashKey", {Title="Dash (forward)", Default=Enum.KeyCode.Q, Callback=function() local c=LocalPlayer.Character; if c then local r=c:FindFirstChild("HumanoidRootPart"); if r then r.CFrame = r.CFrame + Camera.CFrame.LookVector*50 end end end})
+local bunnyHop=false; move:AddToggle("BunnyHop", {Title="Bunny Hop", Default=false, Callback=function(v) bunnyHop=v end})
+UserInputService.InputBegan:Connect(function(input, gp) if gp then return end; if input.KeyCode==Enum.KeyCode.Space and bunnyHop then local c=LocalPlayer.Character; if c and c:FindFirstChild("Humanoid") then local h=c.Humanoid; if h.FloorMaterial~=Enum.Material.Air then h:ChangeState(Enum.HumanoidStateType.Jumping) end end end end)
+local glide=false; move:AddToggle("Glide", {Title="Glide (slow fall)", Default=false, Callback=function(v) glide=v end})
+RunService.Heartbeat:Connect(function() if glide then local c=LocalPlayer.Character; if c and c:FindFirstChild("Humanoid") then local h=c.Humanoid; if h.MoveDirection.Y<0 then h:ChangeState(Enum.HumanoidStateType.FallingDown); h.PlatformStand=false end end end end)
+local sprintMult=1.5; local shift=false; UserInputService.InputBegan:Connect(function(i) if i.KeyCode==Enum.KeyCode.LeftShift then shift=true end end); UserInputService.InputEnded:Connect(function(i) if i.KeyCode==Enum.KeyCode.LeftShift then shift=false end end)
+move:AddSlider("SprintMultiplier", {Title="Sprint Multiplier", Min=1, Max=3, Default=1.5, Callback=function(v) sprintMult=v end})
+RunService.Heartbeat:Connect(function() local c=LocalPlayer.Character; if c and c:FindFirstChild("Humanoid") then local h=c.Humanoid; if shift then h.WalkSpeed = h.WalkSpeed * sprintMult end end end)
 
--- ===================== VISUAL TAB =====================
-local visSection = Tabs.Visual:AddSection("ESP", "solar/eye-bold")
-
-local espEnabled = false
-local espSettings = { Names = true, Boxes = false, Health = true, Tracers = false }
-local espColor = Color3.fromRGB(0, 255, 255)
-local espDistance = 300
-local espObjects = {}
-
-local function createESP(player)
-    if player == LocalPlayer then return end
-    local char = player.Character
-    if not char then return end
-    local root = char:FindFirstChild("HumanoidRootPart")
-    if not root then return end
-
-    local nameLabel = Instance.new("TextLabel")
-    nameLabel.Size = UDim2.new(0, 200, 0, 20)
-    nameLabel.BackgroundTransparency = 1
-    nameLabel.Text = player.Name
-    nameLabel.TextColor3 = espColor
-    nameLabel.TextStrokeTransparency = 0.5
-    nameLabel.Font = Enum.Font.GothamBold
-    nameLabel.TextSize = 14
-    nameLabel.Parent = LocalPlayer.PlayerGui
-    nameLabel.Visible = false
-
-    local healthBar = Instance.new("Frame")
-    healthBar.Size = UDim2.new(0, 100, 0, 4)
-    healthBar.BackgroundColor3 = Color3.fromRGB(0,255,0)
-    healthBar.BorderSizePixel = 0
-    healthBar.Parent = LocalPlayer.PlayerGui
-    healthBar.Visible = false
-    local healthBg = Instance.new("Frame")
-    healthBg.Size = UDim2.new(1,0,1,0)
-    healthBg.BackgroundColor3 = Color3.fromRGB(30,30,30)
-    healthBg.BorderSizePixel = 0
-    healthBg.Parent = healthBar
-    local healthFill = Instance.new("Frame")
-    healthFill.Size = UDim2.new(1,0,1,0)
-    healthFill.BackgroundColor3 = Color3.fromRGB(0,255,0)
-    healthFill.BorderSizePixel = 0
-    healthFill.Parent = healthBar
-
-    local box = Instance.new("Frame")
-    box.Size = UDim2.new(0, 60, 0, 80)
-    box.BackgroundTransparency = 0.5
-    box.BackgroundColor3 = espColor
-    box.BorderSizePixel = 1
-    box.BorderColor3 = espColor
-    box.Parent = LocalPlayer.PlayerGui
-    box.Visible = false
-
-    local tracer = Instance.new("Frame")
-    tracer.Size = UDim2.new(0, 2, 0, 100)
-    tracer.BackgroundColor3 = espColor
-    tracer.BackgroundTransparency = 0.5
-    tracer.Parent = LocalPlayer.PlayerGui
-    tracer.Visible = false
-
-    espObjects[player] = { nameLabel, healthBar, healthFill, box, tracer }
+-- ===== VISUAL TAB (ESP, Chams, etc.) – simplified =====
+local vis = Tabs.Visual:AddSection("ESP", "solar/eye-bold")
+local espEnabled=false; local espSettings={Names=true, Boxes=false, Health=true, Tracers=false}; local espColor=Color3.fromRGB(0,255,255); local espDistance=300; local espObjects={}
+local function createESP(p) if p==LocalPlayer then return end; local c=p.Character; if not c then return end; local r=c:FindFirstChild("HumanoidRootPart"); if not r then return end
+    local name=Instance.new("TextLabel"); name.Size=UDim2.new(0,200,0,20); name.BackgroundTransparency=1; name.Text=p.Name; name.TextColor3=espColor; name.TextStrokeTransparency=0.5; name.Font=Enum.Font.GothamBold; name.TextSize=14; name.Parent=LocalPlayer.PlayerGui; name.Visible=false
+    local hb=Instance.new("Frame"); hb.Size=UDim2.new(0,100,0,4); hb.BackgroundColor3=Color3.fromRGB(0,255,0); hb.BorderSizePixel=0; hb.Parent=LocalPlayer.PlayerGui; hb.Visible=false
+    local hbg=Instance.new("Frame"); hbg.Size=UDim2.new(1,0,1,0); hbg.BackgroundColor3=Color3.fromRGB(30,30,30); hbg.BorderSizePixel=0; hbg.Parent=hb
+    local hfill=Instance.new("Frame"); hfill.Size=UDim2.new(1,0,1,0); hfill.BackgroundColor3=Color3.fromRGB(0,255,0); hfill.BorderSizePixel=0; hfill.Parent=hb
+    local box=Instance.new("Frame"); box.Size=UDim2.new(0,60,0,80); box.BackgroundTransparency=0.5; box.BackgroundColor3=espColor; box.BorderSizePixel=1; box.BorderColor3=espColor; box.Parent=LocalPlayer.PlayerGui; box.Visible=false
+    local tracer=Instance.new("Frame"); tracer.Size=UDim2.new(0,2,0,100); tracer.BackgroundColor3=espColor; tracer.BackgroundTransparency=0.5; tracer.Parent=LocalPlayer.PlayerGui; tracer.Visible=false
+    espObjects[p]={name, hb, hfill, box, tracer}
 end
-
-local function removeESP(player)
-    local objs = espObjects[player]
-    if objs then
-        for _, obj in ipairs(objs) do obj:Destroy() end
-        espObjects[player] = nil
-    end
-end
-
+local function removeESP(p) local o=espObjects[p]; if o then for _,obj in ipairs(o) do obj:Destroy() end; espObjects[p]=nil end end
 local function updateESP()
-    if not espEnabled then
-        for _, objs in pairs(espObjects) do
-            for _, obj in ipairs(objs) do obj.Visible = false end
-        end
-        return
-    end
-
-    local camera = Camera
-    local viewport = camera.ViewportSize
-    for player, objs in pairs(espObjects) do
-        local char = player.Character
-        if not char then
-            for _, obj in ipairs(objs) do obj.Visible = false end
-            continue
-        end
-        local root = char:FindFirstChild("HumanoidRootPart")
-        if not root then
-            for _, obj in ipairs(objs) do obj.Visible = false end
-            continue
-        end
-        local pos, onScreen = camera:WorldToViewportPoint(root.Position)
-        local dist = (root.Position - camera.CFrame.Position).Magnitude
-        if onScreen and dist <= espDistance then
-            local nameLabel, healthBar, healthFill, box, tracer = unpack(objs)
-            nameLabel.Visible = espSettings.Names
-            healthBar.Visible = espSettings.Health
-            box.Visible = espSettings.Boxes
-            tracer.Visible = espSettings.Tracers
-
-            if espSettings.Names then
-                nameLabel.Position = UDim2.new(0, pos.X - 100, 0, pos.Y - 40)
-                nameLabel.TextColor3 = espColor
-            end
+    if not espEnabled then for _,o in pairs(espObjects) do for _,obj in ipairs(o) do obj.Visible=false end end return end
+    local cam=Camera; local vp=cam.ViewportSize
+    for p,o in pairs(espObjects) do
+        local c=p.Character; if not c then for _,obj in ipairs(o) do obj.Visible=false end continue end
+        local r=c:FindFirstChild("HumanoidRootPart"); if not r then for _,obj in ipairs(o) do obj.Visible=false end continue end
+        local pos, on = cam:WorldToViewportPoint(r.Position); local dist=(r.Position-cam.CFrame.Position).Magnitude
+        if on and dist<=espDistance then
+            local name, hb, hfill, box, tracer = unpack(o)
+            name.Visible=espSettings.Names; hb.Visible=espSettings.Health; box.Visible=espSettings.Boxes; tracer.Visible=espSettings.Tracers
+            if espSettings.Names then name.Position=UDim2.new(0,pos.X-100,0,pos.Y-40); name.TextColor3=espColor end
             if espSettings.Health then
-                healthBar.Position = UDim2.new(0, pos.X - 50, 0, pos.Y - 20)
-                local humanoid = char:FindFirstChild("Humanoid")
-                if humanoid then
-                    local hp = humanoid.Health / humanoid.MaxHealth
-                    healthFill.Size = UDim2.new(math.clamp(hp,0,1), 0, 1, 0)
-                    healthFill.BackgroundColor3 = Color3.fromRGB(255 * (1 - hp), 255 * hp, 0)
-                end
+                hb.Position=UDim2.new(0,pos.X-50,0,pos.Y-20)
+                local hum=c:FindFirstChild("Humanoid"); if hum then local hp=hum.Health/hum.MaxHealth; hfill.Size=UDim2.new(math.clamp(hp,0,1),0,1,0); hfill.BackgroundColor3=Color3.fromRGB(255*(1-hp),255*hp,0) end
             end
-            if espSettings.Boxes then
-                box.Position = UDim2.new(0, pos.X - 30, 0, pos.Y - 40)
-                box.BackgroundColor3 = espColor
-                box.BorderColor3 = espColor
-            end
-            if espSettings.Tracers then
-                tracer.Position = UDim2.new(0, pos.X - 1, 0, pos.Y + 20)
-                local height = viewport.Y - pos.Y - 20
-                tracer.Size = UDim2.new(0, 2, 0, math.max(height, 0))
-                tracer.BackgroundColor3 = espColor
-            end
+            if espSettings.Boxes then box.Position=UDim2.new(0,pos.X-30,0,pos.Y-40); box.BackgroundColor3=espColor; box.BorderColor3=espColor end
+            if espSettings.Tracers then tracer.Position=UDim2.new(0,pos.X-1,0,pos.Y+20); local h=vp.Y-pos.Y-20; tracer.Size=UDim2.new(0,2,0,math.max(h,0)); tracer.BackgroundColor3=espColor end
         else
-            for _, obj in ipairs(objs) do obj.Visible = false end
+            for _,obj in ipairs(o) do obj.Visible=false end
         end
     end
 end
+vis:AddToggle("ESPEnabled", {Title="Enable ESP", Default=false, Callback=function(v) espEnabled=v end})
+vis:AddToggle("ESPNames", {Title="Show Names", Default=true, Callback=function(v) espSettings.Names=v end})
+vis:AddToggle("ESPBoxes", {Title="Show Boxes", Default=false, Callback=function(v) espSettings.Boxes=v end})
+vis:AddToggle("ESPHealth", {Title="Show Health", Default=true, Callback=function(v) espSettings.Health=v end})
+vis:AddToggle("ESPTracers", {Title="Show Tracers", Default=false, Callback=function(v) espSettings.Tracers=v end})
+vis:AddDropdown("ESPColor", {Title="ESP Color", Values={"Cyan","Red","Green","Yellow","Purple","White"}, Default="Cyan", Callback=function(v) local c={Cyan=Color3.fromRGB(0,255,255), Red=Color3.fromRGB(255,0,0), Green=Color3.fromRGB(0,255,0), Yellow=Color3.fromRGB(255,255,0), Purple=Color3.fromRGB(255,0,255), White=Color3.fromRGB(255,255,255)}; espColor=c[v] or Color3.fromRGB(0,255,255) end})
+vis:AddSlider("ESPDistance", {Title="ESP Distance", Min=50, Max=1000, Default=300, Callback=function(v) espDistance=v end})
+vis:AddToggle("Chams", {Title="Chams (glow)", Default=false, Callback=function(v) for _,p in ipairs(Players:GetPlayers()) do if p~=LocalPlayer then local c=p.Character; if c then for _,part in ipairs(c:GetDescendants()) do if part:IsA("BasePart") then if v then part.Material=Enum.Material.Neon; part.Color=espColor else part.Material=Enum.Material.Plastic end end end end end end end})
+vis:AddSlider("FOV", {Title="Field of View", Min=1, Max=120, Default=70, Callback=function(v) Camera.FieldOfView=v end})
+local crosshairEnabled=false; local crosshair=Instance.new("Frame"); crosshair.Size=UDim2.new(0,4,0,4); crosshair.BackgroundColor3=Color3.fromRGB(255,0,0); crosshair.AnchorPoint=Vector2.new(0.5,0.5); crosshair.Parent=LocalPlayer.PlayerGui; crosshair.Visible=false
+vis:AddToggle("Crosshair", {Title="Crosshair Overlay", Default=false, Callback=function(v) crosshairEnabled=v; crosshair.Visible=v end})
+RunService.Heartbeat:Connect(function() if crosshairEnabled then crosshair.Position=UDim2.new(0.5,0,0.5,0) end end)
+local speedMeter=false; local spdLabel=Instance.new("TextLabel"); spdLabel.Size=UDim2.new(0,120,0,30); spdLabel.Position=UDim2.new(0.01,0,0.01,0); spdLabel.BackgroundTransparency=1; spdLabel.TextColor3=Color3.fromRGB(255,255,255); spdLabel.TextStrokeTransparency=0.5; spdLabel.Font=Enum.Font.GothamBold; spdLabel.TextSize=16; spdLabel.Visible=false; spdLabel.Parent=LocalPlayer.PlayerGui
+vis:AddToggle("SpeedMeter", {Title="Show Speed Meter", Default=false, Callback=function(v) speedMeter=v; spdLabel.Visible=v end})
+RunService.Heartbeat:Connect(function() if speedMeter then local c=LocalPlayer.Character; if c and c:FindFirstChild("HumanoidRootPart") then local v=c.HumanoidRootPart.Velocity.Magnitude; spdLabel.Text="Speed: "..math.floor(v).." studs/s" end end end)
+vis:AddToggle("Fullbright", {Title="Fullbright (Night Vision)", Default=false, Callback=function(v) if v then Lighting.Brightness=2; Lighting.Ambient=Color3.fromRGB(255,255,255); Lighting.OutdoorAmbient=Color3.fromRGB(255,255,255); Lighting.FogEnd=10000 else Lighting.Brightness=1; Lighting.Ambient=Color3.fromRGB(127,127,127); Lighting.OutdoorAmbient=Color3.fromRGB(127,127,127); Lighting.FogEnd=1000 end end})
 
-visSection:AddToggle("ESPEnabled", {
-    Title = "Enable ESP", Icon = "solar/eye-bold", Default = false,
-    Callback = function(v) espEnabled = v end,
-})
-visSection:AddToggle("ESPNames", {
-    Title = "Show Names", Icon = "solar/text-bold", Default = true,
-    Callback = function(v) espSettings.Names = v end,
-})
-visSection:AddToggle("ESPBoxes", {
-    Title = "Show Boxes", Icon = "solar/square-bold", Default = false,
-    Callback = function(v) espSettings.Boxes = v end,
-})
-visSection:AddToggle("ESPHealth", {
-    Title = "Show Health", Icon = "solar/health-bold", Default = true,
-    Callback = function(v) espSettings.Health = v end,
-})
-visSection:AddToggle("ESPTracers", {
-    Title = "Show Tracers", Icon = "solar/line-bold", Default = false,
-    Callback = function(v) espSettings.Tracers = v end,
-})
-visSection:AddDropdown("ESPColor", {
-    Title = "ESP Color", Icon = "solar/palette-bold",
-    Values = {"Cyan", "Red", "Green", "Yellow", "Purple", "White"},
-    Default = "Cyan",
-    Callback = function(v)
-        local colors = {
-            Cyan = Color3.fromRGB(0,255,255),
-            Red = Color3.fromRGB(255,0,0),
-            Green = Color3.fromRGB(0,255,0),
-            Yellow = Color3.fromRGB(255,255,0),
-            Purple = Color3.fromRGB(255,0,255),
-            White = Color3.fromRGB(255,255,255),
-        }
-        espColor = colors[v] or Color3.fromRGB(0,255,255)
-    end,
-})
-visSection:AddSlider("ESPDistance", {
-    Title = "ESP Distance", Icon = "solar/ruler-bold",
-    Min = 50, Max = 1000, Default = 300,
-    Callback = function(v) espDistance = v end,
-})
-
-local chamsEnabled = false
-visSection:AddToggle("Chams", {
-    Title = "Chams (glow)", Icon = "solar/glow-bold", Default = false,
-    Callback = function(v)
-        chamsEnabled = v
-        for _, player in ipairs(Players:GetPlayers()) do
-            if player ~= LocalPlayer then
-                local char = player.Character
-                if char then
-                    for _, part in ipairs(char:GetDescendants()) do
-                        if part:IsA("BasePart") then
-                            if v then
-                                part.Material = Enum.Material.Neon
-                                part.Color = espColor
-                            else
-                                part.Material = Enum.Material.Plastic
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end,
-})
-
-visSection:AddSlider("FOV", {
-    Title = "Field of View", Icon = "solar/zoom-in-bold",
-    Min = 1, Max = 120, Default = 70, Rounding = 0,
-    Callback = function(v) Camera.FieldOfView = v end,
-})
-
-local crosshairEnabled = false
-local crosshair = Instance.new("Frame")
-crosshair.Size = UDim2.new(0, 4, 0, 4)
-crosshair.BackgroundColor3 = Color3.fromRGB(255,0,0)
-crosshair.AnchorPoint = Vector2.new(0.5, 0.5)
-crosshair.Parent = LocalPlayer.PlayerGui
-crosshair.Visible = false
-visSection:AddToggle("Crosshair", {
-    Title = "Crosshair Overlay", Icon = "solar/crosshair-bold", Default = false,
-    Callback = function(v)
-        crosshairEnabled = v
-        crosshair.Visible = v
-    end,
-})
-RunService.Heartbeat:Connect(function()
-    if crosshairEnabled then
-        local viewport = Camera.ViewportSize
-        crosshair.Position = UDim2.new(0.5, 0, 0.5, 0)
-    end
-end)
-
-local speedMeterEnabled = false
-local speedLabel = Instance.new("TextLabel")
-speedLabel.Size = UDim2.new(0, 120, 0, 30)
-speedLabel.Position = UDim2.new(0.01, 0, 0.01, 0)
-speedLabel.BackgroundTransparency = 1
-speedLabel.TextColor3 = Color3.fromRGB(255,255,255)
-speedLabel.TextStrokeTransparency = 0.5
-speedLabel.Font = Enum.Font.GothamBold
-speedLabel.TextSize = 16
-speedLabel.Visible = false
-speedLabel.Parent = LocalPlayer.PlayerGui
-visSection:AddToggle("SpeedMeter", {
-    Title = "Show Speed Meter", Icon = "solar/speedometer-bold", Default = false,
-    Callback = function(v)
-        speedMeterEnabled = v
-        speedLabel.Visible = v
-    end,
-})
-RunService.Heartbeat:Connect(function()
-    if speedMeterEnabled then
-        local char = LocalPlayer.Character
-        if char and char:FindFirstChild("HumanoidRootPart") then
-            local vel = char.HumanoidRootPart.Velocity.Magnitude
-            speedLabel.Text = "Speed: " .. math.floor(vel) .. " studs/s"
-        end
-    end
-end)
-
-visSection:AddToggle("Fullbright", {
-    Title = "Fullbright (Night Vision)", Icon = "solar/sun-bold", Default = false,
-    Callback = function(v)
-        if v then
-            Lighting.Brightness = 2
-            Lighting.Ambient = Color3.fromRGB(255,255,255)
-            Lighting.OutdoorAmbient = Color3.fromRGB(255,255,255)
-            Lighting.FogEnd = 10000
-        else
-            Lighting.Brightness = 1
-            Lighting.Ambient = Color3.fromRGB(127,127,127)
-            Lighting.OutdoorAmbient = Color3.fromRGB(127,127,127)
-            Lighting.FogEnd = 1000
-        end
-    end,
-})
-
--- ===================== RADAR TAB =====================
-local radarSection = Tabs.Radar:AddSection("Radar", "solar/map-bold")
-local radarEnabled = false
-local radarSize = 150
-local radarGui = Instance.new("ScreenGui")
-radarGui.Parent = LocalPlayer.PlayerGui
-radarGui.ResetOnSpawn = false
-
-local radarFrame = Instance.new("Frame")
-radarFrame.Size = UDim2.new(0, radarSize, 0, radarSize)
-radarFrame.Position = UDim2.new(0.02, 0, 0.85, 0)
-radarFrame.BackgroundColor3 = Color3.fromRGB(20,20,30)
-radarFrame.BackgroundTransparency = 0.3
-radarFrame.BorderSizePixel = 1
-radarFrame.BorderColor3 = Color3.fromRGB(255,255,255)
-radarFrame.Parent = radarGui
-radarFrame.Visible = false
-
+-- ===== RADAR =====
+local rad = Tabs.Radar:AddSection("Radar", "solar/map-bold")
+local radarEnabled=false; local radarSize=150; local radarGui=Instance.new("ScreenGui"); radarGui.Parent=LocalPlayer.PlayerGui; radarGui.ResetOnSpawn=false
+local radarFrame=Instance.new("Frame"); radarFrame.Size=UDim2.new(0,radarSize,0,radarSize); radarFrame.Position=UDim2.new(0.02,0,0.85,0); radarFrame.BackgroundColor3=Color3.fromRGB(20,20,30); radarFrame.BackgroundTransparency=0.3; radarFrame.BorderSizePixel=1; radarFrame.BorderColor3=Color3.fromRGB(255,255,255); radarFrame.Parent=radarGui; radarFrame.Visible=false
 local function updateRadar()
-    if not radarEnabled then
-        radarFrame.Visible = false
-        return
-    end
-    radarFrame.Visible = true
-    for _, child in ipairs(radarFrame:GetChildren()) do
-        if child.Name == "Dot" then child:Destroy() end
-    end
-    local center = radarFrame.AbsoluteSize / 2
-    local playerPos = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-    if not playerPos then return end
-    local pPos = playerPos.Position
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer then
-            local char = player.Character
-            if char then
-                local root = char:FindFirstChild("HumanoidRootPart")
-                if root then
-                    local rel = root.Position - pPos
-                    local dist = rel.Magnitude
-                    if dist < 200 then
-                        local scale = radarSize / 400
-                        local dot = Instance.new("Frame")
-                        dot.Name = "Dot"
-                        dot.Size = UDim2.new(0, 4, 0, 4)
-                        dot.BackgroundColor3 = Color3.fromRGB(255,0,0)
-                        dot.BorderSizePixel = 0
-                        dot.Parent = radarFrame
-                        dot.Position = UDim2.new(0, center.X + rel.X * scale, 0, center.Y + rel.Z * scale)
-                    end
-                end
-            end
-        end
-    end
+    if not radarEnabled then radarFrame.Visible=false return end
+    radarFrame.Visible=true
+    for _,ch in ipairs(radarFrame:GetChildren()) do if ch.Name=="Dot" then ch:Destroy() end end
+    local center=radarFrame.AbsoluteSize/2; local pp=LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart"); if not pp then return end; local pPos=pp.Position
+    for _,p in ipairs(Players:GetPlayers()) do if p~=LocalPlayer then local c=p.Character; if c then local r=c:FindFirstChild("HumanoidRootPart"); if r then local rel=r.Position-pPos; local dist=rel.Magnitude; if dist<200 then local scale=radarSize/400; local dot=Instance.new("Frame"); dot.Name="Dot"; dot.Size=UDim2.new(0,4,0,4); dot.BackgroundColor3=Color3.fromRGB(255,0,0); dot.BorderSizePixel=0; dot.Parent=radarFrame; dot.Position=UDim2.new(0,center.X+rel.X*scale,0,center.Y+rel.Z*scale) end end end end end
 end
-
-radarSection:AddToggle("RadarEnabled", {
-    Title = "Enable Radar", Icon = "solar/map-bold", Default = false,
-    Callback = function(v) radarEnabled = v end,
-})
-radarSection:AddSlider("RadarSize", {
-    Title = "Radar Size", Icon = "solar/ruler-bold",
-    Min = 80, Max = 300, Default = 150, Rounding = 0,
-    Callback = function(v)
-        radarSize = v
-        radarFrame.Size = UDim2.new(0, v, 0, v)
-    end,
-})
+rad:AddToggle("RadarEnabled", {Title="Enable Radar", Default=false, Callback=function(v) radarEnabled=v end})
+rad:AddSlider("RadarSize", {Title="Radar Size", Min=80, Max=300, Default=150, Callback=function(v) radarSize=v; radarFrame.Size=UDim2.new(0,v,0,v) end})
 RunService.Heartbeat:Connect(updateRadar)
 
--- ===================== AUTO TAB =====================
-local autoSection = Tabs.Auto:AddSection("Healing", "solar/health-bold")
-local autoHeal = false
-local healThreshold = 30
-local healthPotions = {"HealthPotion", "Potion", "MedKit"}
-
-autoSection:AddToggle("AutoHeal", {
-    Title = "Auto Heal", Icon = "solar/health-bold", Default = false,
-    Callback = function(v) autoHeal = v end,
-})
-autoSection:AddSlider("HealThreshold", {
-    Title = "Heal at Health %", Icon = "solar/health-bold",
-    Min = 10, Max = 80, Default = 30, Rounding = 0,
-    Callback = function(v) healThreshold = v end,
-})
-
+-- ===== AUTO =====
+local auto = Tabs.Auto:AddSection("Healing", "solar/health-bold")
+local autoHeal=false; local healThreshold=30; local healthPotions={"HealthPotion","Potion","MedKit"}
+auto:AddToggle("AutoHeal", {Title="Auto Heal", Default=false, Callback=function(v) autoHeal=v end})
+auto:AddSlider("HealThreshold", {Title="Heal at Health %", Min=10, Max=80, Default=30, Callback=function(v) healThreshold=v end})
 RunService.Heartbeat:Connect(function()
     if not autoHeal then return end
-    local char = LocalPlayer.Character
-    if not char then return end
-    local hum = char:FindFirstChild("Humanoid")
-    if not hum then return end
-    local hpPercent = hum.Health / hum.MaxHealth * 100
-    if hpPercent < healThreshold then
-        local backpack = LocalPlayer.Backpack
-        for _, item in ipairs(backpack:GetChildren()) do
+    local c=LocalPlayer.Character; if not c then return end; local h=c:FindFirstChild("Humanoid"); if not h then return end
+    if h.Health/h.MaxHealth*100 < healThreshold then
+        local bp=LocalPlayer.Backpack
+        for _,item in ipairs(bp:GetChildren()) do
             if item:IsA("Tool") then
-                for _, name in ipairs(healthPotions) do
+                for _,name in ipairs(healthPotions) do
                     if item.Name:find(name) then
-                        local t = item:Clone()
-                        t.Parent = char
-                        local handle = t:FindFirstChild("Handle")
-                        if handle and handle:IsA("BasePart") then
-                            handle.CFrame = char.HumanoidRootPart.CFrame
-                        end
-                        t:Activate()
-                        task.wait(0.5)
-                        t:Destroy()
-                        return
+                        local t=item:Clone(); t.Parent=c; local handle=t:FindFirstChild("Handle"); if handle and handle:IsA("BasePart") then handle.CFrame=c.HumanoidRootPart.CFrame end; t:Activate(); task.wait(0.5); t:Destroy(); return
                     end
                 end
             end
         end
     end
 end)
-
-local killAuraEnabled = false
-local killAuraRange = 20
-local killAuraDamage = 10
-autoSection:AddToggle("KillAura", {
-    Title = "Kill Aura (melee)", Icon = "solar/sword-bold", Default = false,
-    Callback = function(v) killAuraEnabled = v end,
-})
-autoSection:AddSlider("KillAuraRange", {
-    Title = "Range", Icon = "solar/ruler-bold",
-    Min = 5, Max = 50, Default = 20,
-    Callback = function(v) killAuraRange = v end,
-})
-autoSection:AddSlider("KillAuraDamage", {
-    Title = "Damage per hit", Icon = "solar/health-bold",
-    Min = 1, Max = 50, Default = 10,
-    Callback = function(v) killAuraDamage = v end,
-})
-
+local killAura=false; local killRange=20; local killDamage=10
+auto:AddToggle("KillAura", {Title="Kill Aura (melee)", Default=false, Callback=function(v) killAura=v end})
+auto:AddSlider("KillAuraRange", {Title="Range", Min=5, Max=50, Default=20, Callback=function(v) killRange=v end})
+auto:AddSlider("KillAuraDamage", {Title="Damage per hit", Min=1, Max=50, Default=10, Callback=function(v) killDamage=v end})
 RunService.Heartbeat:Connect(function()
-    if not killAuraEnabled then return end
-    local char = LocalPlayer.Character
-    if not char then return end
-    local root = char:FindFirstChild("HumanoidRootPart")
-    if not root then return end
-    for _, player in ipairs(Players:GetPlayers()) do
-        if player ~= LocalPlayer then
-            local tChar = player.Character
-            if tChar then
-                local tRoot = tChar:FindFirstChild("HumanoidRootPart")
-                if tRoot then
-                    local dist = (tRoot.Position - root.Position).Magnitude
-                    if dist < killAuraRange then
-                        local humanoid = tChar:FindFirstChild("Humanoid")
-                        if humanoid and humanoid.Health > 0 then
-                            humanoid.Health = humanoid.Health - killAuraDamage
-                        end
+    if not killAura then return end
+    local c=LocalPlayer.Character; if not c then return end; local root=c:FindFirstChild("HumanoidRootPart"); if not root then return end
+    for _,p in ipairs(Players:GetPlayers()) do
+        if p~=LocalPlayer then
+            local tc=p.Character; if tc then
+                local tr=tc:FindFirstChild("HumanoidRootPart"); if tr then
+                    if (tr.Position-root.Position).Magnitude < killRange then
+                        local h=tc:FindFirstChild("Humanoid"); if h and h.Health>0 then h.Health = h.Health - killDamage end
                     end
                 end
             end
@@ -923,242 +212,67 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
--- ===================== MISC TAB =====================
-local miscSection = Tabs.Misc:AddSection("Utility", "solar/tuning-square-bold")
-
-miscSection:AddToggle("AntiAFK", {
-    Title = "Anti-AFK", Icon = "solar/clock-bold", Default = false,
-    Callback = function(v)
-        if v then
-            RunService.RenderStepped:Connect(function()
-                if not v then return end
-                local char = LocalPlayer.Character
-                if char and char:FindFirstChild("Humanoid") then
-                    local hum = char.Humanoid
-                    if hum.MoveDirection.Magnitude < 0.1 then
-                        hum:Move(Vector3.new(0,0,0.01))
-                    end
-                end
-                task.wait(30)
-            end)
-        end
-    end,
-})
-
-miscSection:AddToggle("InfiniteStamina", {
-    Title = "Infinite Stamina", Icon = "solar/bolt-bold", Default = false,
-    Callback = function(v)
-        local function setStamina(char)
-            local hum = char:FindFirstChild("Humanoid")
-            if hum then
-                local stamina = hum:FindFirstChild("Stamina")
-                if stamina and stamina:IsA("NumberValue") then
-                    stamina:GetPropertyChangedSignal("Value"):Connect(function()
-                        if v then stamina.Value = stamina.Value * 2 end
-                    end)
-                end
-            end
-        end
-        if v then
-            local char = LocalPlayer.Character
-            if char then setStamina(char) end
-            LocalPlayer.CharacterAdded:Connect(setStamina)
-        end
-    end,
-})
-
-local playerListEnabled = false
-local playerListGui = Instance.new("ScreenGui")
-playerListGui.Parent = LocalPlayer.PlayerGui
-playerListGui.ResetOnSpawn = false
-local playerListFrame = Instance.new("ScrollingFrame")
-playerListFrame.Size = UDim2.new(0, 200, 0, 300)
-playerListFrame.Position = UDim2.new(0.01, 0, 0.1, 0)
-playerListFrame.BackgroundColor3 = Color3.fromRGB(30,30,40)
-playerListFrame.BackgroundTransparency = 0.3
-playerListFrame.BorderSizePixel = 1
-playerListFrame.BorderColor3 = Color3.fromRGB(255,255,255)
-playerListFrame.Parent = playerListGui
-playerListFrame.Visible = false
-playerListFrame.CanvasSize = UDim2.new(0,0,0,0)
-
-miscSection:AddToggle("PlayerList", {
-    Title = "Show Player List", Icon = "solar/users-bold", Default = false,
-    Callback = function(v)
-        playerListEnabled = v
-        playerListFrame.Visible = v
-    end,
-})
-
+-- ===== MISC =====
+local misc = Tabs.Misc:AddSection("Utility", "solar/tuning-square-bold")
+misc:AddToggle("AntiAFK", {Title="Anti-AFK", Default=false, Callback=function(v) if v then RunService.RenderStepped:Connect(function() if not v then return end; local c=LocalPlayer.Character; if c and c:FindFirstChild("Humanoid") then local h=c.Humanoid; if h.MoveDirection.Magnitude<0.1 then h:Move(Vector3.new(0,0,0.01)) end end; task.wait(30) end) end end})
+misc:AddToggle("InfiniteStamina", {Title="Infinite Stamina", Default=false, Callback=function(v)
+    local function setStam(c) local h=c:FindFirstChild("Humanoid"); if h then local s=h:FindFirstChild("Stamina"); if s and s:IsA("NumberValue") then s:GetPropertyChangedSignal("Value"):Connect(function() if v then s.Value = s.Value*2 end end) end end end
+    if v then local c=LocalPlayer.Character; if c then setStam(c) end; LocalPlayer.CharacterAdded:Connect(setStam) end
+end})
+local playerList=false; local plGui=Instance.new("ScreenGui"); plGui.Parent=LocalPlayer.PlayerGui; plGui.ResetOnSpawn=false; local plFrame=Instance.new("ScrollingFrame"); plFrame.Size=UDim2.new(0,200,0,300); plFrame.Position=UDim2.new(0.01,0,0.1,0); plFrame.BackgroundColor3=Color3.fromRGB(30,30,40); plFrame.BackgroundTransparency=0.3; plFrame.BorderSizePixel=1; plFrame.BorderColor3=Color3.fromRGB(255,255,255); plFrame.Parent=plGui; plFrame.Visible=false; plFrame.CanvasSize=UDim2.new(0,0,0,0)
+misc:AddToggle("PlayerList", {Title="Show Player List", Default=false, Callback=function(v) playerList=v; plFrame.Visible=v end})
 RunService.Heartbeat:Connect(function()
-    if not playerListEnabled then return end
-    for _, child in ipairs(playerListFrame:GetChildren()) do
-        if child:IsA("TextLabel") then child:Destroy() end
+    if not playerList then return end
+    for _,ch in ipairs(plFrame:GetChildren()) do if ch:IsA("TextLabel") then ch:Destroy() end end
+    local y=0
+    for _,p in ipairs(Players:GetPlayers()) do
+        local lbl=Instance.new("TextLabel"); lbl.Size=UDim2.new(1,-10,0,20); lbl.Position=UDim2.new(0,5,0,y); lbl.BackgroundTransparency=1; lbl.TextColor3=Color3.fromRGB(255,255,255); lbl.TextXAlignment=Enum.TextXAlignment.Left; lbl.Font=Enum.Font.GothamBold; lbl.TextSize=14
+        local dist="?"; local c=p.Character; if c and c:FindFirstChild("HumanoidRootPart") then local r=c.HumanoidRootPart; local my=LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart"); if my then dist=math.floor((r.Position-my.Position).Magnitude) end end
+        lbl.Text=p.Name.." - "..dist.." studs"; lbl.Parent=plFrame; y=y+22
     end
-    local y = 0
-    for _, player in ipairs(Players:GetPlayers()) do
-        local label = Instance.new("TextLabel")
-        label.Size = UDim2.new(1, -10, 0, 20)
-        label.Position = UDim2.new(0, 5, 0, y)
-        label.BackgroundTransparency = 1
-        label.TextColor3 = Color3.fromRGB(255,255,255)
-        label.TextXAlignment = Enum.TextXAlignment.Left
-        label.Font = Enum.Font.GothamBold
-        label.TextSize = 14
-        local dist = "?"
-        local char = player.Character
-        if char and char:FindFirstChild("HumanoidRootPart") then
-            local root = char.HumanoidRootPart
-            local myRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-            if myRoot then
-                dist = math.floor((root.Position - myRoot.Position).Magnitude)
-            end
-        end
-        label.Text = player.Name .. " - " .. dist .. " studs"
-        label.Parent = playerListFrame
-        y = y + 22
-    end
-    playerListFrame.CanvasSize = UDim2.new(0,0,0,y)
+    plFrame.CanvasSize=UDim2.new(0,0,0,y)
 end)
+local eSpam=false; local eInterval=0.1
+misc:AddToggle("ESpam", {Title="E Spam (auto-press E)", Default=false, Callback=function(v) eSpam=v end})
+misc:AddSlider("ESpamInterval", {Title="Interval (seconds)", Min=0.02, Max=1, Default=0.1, Rounding=2, Callback=function(v) eInterval=v end})
+task.spawn(function() while true do if eSpam then if VirtualInputManager then VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game); task.wait(eInterval); VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game); task.wait(eInterval) else warn("VirtualInputManager missing – E-Spam disabled"); eSpam=false end else task.wait(0.5) end end end)
 
--- E-Spam
-local eSpamEnabled = false
-local eSpamInterval = 0.1
-miscSection:AddToggle("ESpam", {
-    Title = "E Spam (auto-press E)", Icon = "solar/keyboard-bold", Default = false,
-    Callback = function(v) eSpamEnabled = v end,
-})
-miscSection:AddSlider("ESpamInterval", {
-    Title = "Interval (seconds)", Icon = "solar/clock-bold",
-    Min = 0.02, Max = 1, Default = 0.1, Rounding = 2,
-    Callback = function(v) eSpamInterval = v end,
-})
-
-task.spawn(function()
-    while true do
-        if eSpamEnabled then
-            if VirtualInputManager then
-                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-                task.wait(eSpamInterval)
-                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
-                task.wait(eSpamInterval)
-            else
-                warn("VirtualInputManager missing – E-Spam disabled")
-                eSpamEnabled = false
-            end
-        else
-            task.wait(0.5)
-        end
-    end
-end)
-
--- ===================== APPEARANCE TAB =====================
-local secThemes = Tabs.Appearance:AddSection("Themes", "solar/palette-bold")
-secThemes:AddParagraph({
-    Title = "Built-in Themes",
-    Content = "Click any button to instantly apply that theme.",
-})
-
-for _, name in ipairs({
-    "Amoled","Ash Gray","Blood Red","Cyanic","Amber Glow","Deep Violet",
-    "Neon Cyber","Neon Purple","Royal Blue","Deep Ocean","Rgb","Orange",
-    "Charcoal","Pearl White","Midnight","Galaxy Purple","Cosmic Violet",
-    "Cotton Candy","Arctic Frost",
-}) do
-    secThemes:AddButton({
-        Title = name, Icon = "solar/palette-bold",
-        Callback = function()
-            Fluent:SetTheme(name)
-            Notify("Theme", name .. " applied", "Info", nil, 2)
-        end,
-    })
+-- ===== APPEARANCE =====
+local app = Tabs.Appearance:AddSection("Themes", "solar/palette-bold")
+app:AddParagraph({Title="Themes", Content="Click any button to apply."})
+for _,name in ipairs({"Amoled","Ash Gray","Blood Red","Cyanic","Amber Glow","Deep Violet","Neon Cyber","Neon Purple","Royal Blue","Deep Ocean","Rgb","Orange","Charcoal","Pearl White","Midnight","Galaxy Purple","Cosmic Violet","Cotton Candy","Arctic Frost"}) do
+    app:AddButton({Title=name, Callback=function() Fluent:SetTheme(name); Notify("Theme", name.." applied", "Info", nil, 2) end})
 end
 
-local secCustomThemes = Tabs.Appearance:AddSection("Custom Themes", "solar/star-bold")
-for _, name in ipairs({"NeonBlue","EmeraldDark","Sunset","SlateStatic","SlateAnimated"}) do
-    secCustomThemes:AddButton({
-        Title = name, Icon = "solar/star-bold",
-        Callback = function()
-            Fluent:SetTheme(name)
-            Notify("Theme", name .. " applied", "Success", nil, 2)
-        end,
-    })
-end
-
--- ===================== SETTINGS TAB =====================
+-- ===== SETTINGS =====
 MediaManager:SetFolder("FluentShowcase/MediaCache")
-InterfaceManager:SetLibrary(Fluent)
-InterfaceManager:SetFolder("FluentShowcase")
-InterfaceManager:BuildInterfaceSection(Tabs.Settings)
-InterfaceManager:LoadSettings()
+InterfaceManager:SetLibrary(Fluent); InterfaceManager:SetFolder("FluentShowcase"); InterfaceManager:BuildInterfaceSection(Tabs.Settings); InterfaceManager:LoadSettings()
+SaveManager:SetLibrary(Fluent); SaveManager:SetFolder("FluentShowcase/Config"); SaveManager:IgnoreThemeSettings(); SaveManager:BuildConfigSection(Tabs.Settings); SaveManager:LoadAutoloadConfig()
+FloatingButtonManager:SetLibrary(Fluent); FloatingButtonManager:SetFolder("FluentShowcase/Floating"); FloatingButtonManager:BuildConfigSection(Tabs.Settings); FloatingButtonManager:LoadAutoloadConfig()
 
-SaveManager:SetLibrary(Fluent)
-SaveManager:SetFolder("FluentShowcase/Config")
-SaveManager:IgnoreThemeSettings()
-SaveManager:BuildConfigSection(Tabs.Settings)
-SaveManager:LoadAutoloadConfig()
+-- ===== SIMPLE OPEN/CLOSE BUTTON =====
+local gui = Instance.new("ScreenGui"); gui.Name="OpenUi"; gui.Parent=LocalPlayer:WaitForChild("PlayerGui"); gui.ResetOnSpawn=false
+local btn = Instance.new("TextButton"); btn.Name="OpenButton"; btn.Parent=gui
+btn.BackgroundColor3 = Color3.fromRGB(40,40,50); btn.BackgroundTransparency = 0.2
+btn.Position = UDim2.new(0.9, -60, 0.9, -60); btn.Size = UDim2.new(0, 55, 0, 55)
+btn.Text = "⚙️"; btn.TextColor3 = Color3.fromRGB(255,255,255); btn.TextSize = 30; btn.Font = Enum.Font.GothamBold
+Instance.new("UICorner", btn).CornerRadius = UDim.new(1,0)
 
-FloatingButtonManager:SetLibrary(Fluent)
-FloatingButtonManager:SetFolder("FluentShowcase/Floating")
-FloatingButtonManager:BuildConfigSection(Tabs.Settings)
-FloatingButtonManager:LoadAutoloadConfig()
-
--- ===================== SIMPLIFIED OPEN/CLOSE BUTTON =====================
-local toggleGui = Instance.new("ScreenGui")
-toggleGui.Name = "OpenUi"
-toggleGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
-toggleGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-toggleGui.ResetOnSpawn = false
-
-local mainBtn = Instance.new("TextButton")
-mainBtn.Name = "OpenButton"
-mainBtn.Parent = toggleGui
-mainBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
-mainBtn.BackgroundTransparency = 0.2
-mainBtn.Position = UDim2.new(0.9, -60, 0.9, -60)
-mainBtn.Size = UDim2.new(0, 55, 0, 55)
-mainBtn.Text = "⚙️"
-mainBtn.TextColor3 = Color3.fromRGB(255,255,255)
-mainBtn.TextSize = 30
-mainBtn.Font = Enum.Font.GothamBold
-mainBtn.Visible = true
-Instance.new("UICorner", mainBtn).CornerRadius = UDim.new(1, 0)
-
--- Drag logic
-local dragging = false
-local dragStart, startPos
-mainBtn.MouseButton1Down:Connect(function(input)
-    dragging = true
-    dragStart = input.Position
-    startPos = mainBtn.Position
-end)
-mainBtn.MouseButton1Up:Connect(function()
-    dragging = false
-end)
+local dragging, dragStart, startPos = false
+btn.MouseButton1Down:Connect(function(input) dragging=true; dragStart=input.Position; startPos=btn.Position end)
+btn.MouseButton1Up:Connect(function() dragging=false end)
 UserInputService.InputChanged:Connect(function(input)
-    if not dragging then return end
-    if input.UserInputType ~= Enum.UserInputType.MouseMovement then return end
+    if not dragging or input.UserInputType~=Enum.UserInputType.MouseMovement then return end
     local delta = input.Position - dragStart
-    mainBtn.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    btn.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset+delta.X, startPos.Y.Scale, startPos.Y.Offset+delta.Y)
 end)
+local open = true
+btn.MouseButton1Click:Connect(function() open=not open; if open then Window:Show() else Window:Hide() end end)
 
--- Toggle UI
-local uiOpen = true
-mainBtn.MouseButton1Click:Connect(function()
-    uiOpen = not uiOpen
-    if uiOpen then Window:Show() else Window:Hide() end
-end)
-
--- ===================== INIT =====================
-Notify("FluentPro", "Ultimate Pack (Final) Loaded!", "Success", "solar/planet-bold", 4)
-
-Players.PlayerAdded:Connect(createESP)
-Players.PlayerRemoving:Connect(removeESP)
-for _, p in ipairs(Players:GetPlayers()) do
-    if p ~= LocalPlayer then createESP(p) end
-end
-
+-- ===== INIT =====
+Notify("FluentPro", "Ultimate Pack (Compact) Loaded!", "Success", "solar/planet-bold", 4)
+Players.PlayerAdded:Connect(createESP); Players.PlayerRemoving:Connect(removeESP)
+for _,p in ipairs(Players:GetPlayers()) do if p~=LocalPlayer then createESP(p) end end
 RunService.RenderStepped:Connect(updateESP)
-
 Window:Show()
 task.delay(0.5, function() Window:SelectTab(1) end)
