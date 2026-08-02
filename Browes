@@ -1,10 +1,6 @@
 -- ============================================================
---  FLUENTPRO – ULTIMATE FEATURE PACK (COMPLETE)
---  Tabs: Main, Movement, Visual, Radar, Auto, Misc, Appearance, Settings
---  Features: Speed, Jump, Fly, Noclip, Dash, BunnyHop, Glide, Sprint,
---  ESP (Names/Boxes/Health/Tracers/Color/Distance), Chams, FOV, Crosshair,
---  SpeedMeter, Fullbright, Radar, AutoHeal, KillAura, AntiAFK, InfiniteStamina,
---  PlayerList, E-Spam, 20+ themes.
+--  FLUENTPRO – ULTIMATE FEATURE PACK (FINAL)
+--  All features, no font buttons, safe E-Spam.
 -- ============================================================
 
 local Fluent = loadstring(game:HttpGet("https://github.com/StyearX/Fluent-modded/releases/download/1.5.1/FluentPro"))()
@@ -21,7 +17,7 @@ local function Notify(title, content, ntype, icon, duration)
     Fluent:Notify({Title=title, Content=content, Type=ntype or "Info", Icon=icon, Duration=duration or 3})
 end
 
--- ===================== CUSTOM THEMES =====================
+-- ===================== CUSTOM THEMES (fully defined) =====================
 Fluent:RegisterCustomTheme("NeonBlue", {
     Accent = Color3.fromRGB(0, 180, 255),
     AcrylicMain = Color3.fromRGB(10, 14, 28),
@@ -313,8 +309,8 @@ Fluent:RegisterCustomTheme("SlateAnimated", {
 -- ===================== MAIN WINDOW =====================
 local Window = Fluent:CreateWindow({
     Title = "FluentPro",
-    SubTitle = "Ultimate Pack (Complete)",
-    Version = "v3.2",
+    SubTitle = "Ultimate Pack (Final)",
+    Version = "v3.3",
     TabWidth = 130,
     Size = UDim2.fromOffset(500, 520),
     Acrylic = true,
@@ -333,7 +329,7 @@ Fluent:SetErrorHandler(function(msg, fullErr)
     pcall(function() Notify("Error", tostring(msg), "Error", nil, 5) end)
 end)
 
--- ===================== TABS (8 tabs) =====================
+-- ===================== TABS =====================
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "solar/home-bold" }),
     Movement = Window:AddTab({ Title = "Movement", Icon = "solar/running-bold" }),
@@ -345,7 +341,7 @@ local Tabs = {
     Settings = Window:AddTab({ Title = "Settings", Icon = "solar/settings-bold" }),
 }
 
--- ===================== MAIN TAB (Speed, Jump, Fly) =====================
+-- ===================== MAIN TAB =====================
 local secSpeed = Tabs.Main:AddSection("Speed", "solar/running-bold")
 secSpeed:AddSlider("WalkSpeed", {
     Title = "Walk Speed", Icon = "solar/running-bold",
@@ -366,7 +362,6 @@ secJump:AddSlider("JumpPower", {
     end,
 })
 
--- Fly
 local flyEnabled = false
 local flySpeed = 50
 local flyConnection
@@ -428,7 +423,6 @@ secFly:AddSlider("FlySpeed", {
 
 -- ===================== MOVEMENT TAB =====================
 local moveSection = Tabs.Movement:AddSection("Abilities", "solar/arrows-bold")
--- Noclip
 local noclipEnabled = false
 moveSection:AddToggle("Noclip", {
     Title = "Noclip", Icon = "solar/arrows-bold", Default = false,
@@ -442,7 +436,6 @@ moveSection:AddToggle("Noclip", {
         end
     end,
 })
--- Dash
 moveSection:AddKeybind("DashKey", {
     Title = "Dash (forward)", Icon = "solar/record-bold", Default = Enum.KeyCode.Q,
     Callback = function()
@@ -453,7 +446,6 @@ moveSection:AddKeybind("DashKey", {
         end
     end,
 })
--- Bunny Hop
 local bunnyHop = false
 moveSection:AddToggle("BunnyHop", {
     Title = "Bunny Hop", Icon = "solar/arrow-up-bold", Default = false,
@@ -469,7 +461,6 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         end
     end
 end)
--- Glide
 local glideEnabled = false
 moveSection:AddToggle("Glide", {
     Title = "Glide (slow fall)", Icon = "solar/cloud-bold", Default = false,
@@ -486,7 +477,6 @@ RunService.Heartbeat:Connect(function()
         end
     end
 end)
--- Sprint Multiplier
 local sprintMultiplier = 1.5
 local shiftHeld = false
 UserInputService.InputBegan:Connect(function(input) if input.KeyCode == Enum.KeyCode.LeftShift then shiftHeld = true end end)
@@ -677,7 +667,6 @@ visSection:AddSlider("ESPDistance", {
     Callback = function(v) espDistance = v end,
 })
 
--- Chams
 local chamsEnabled = false
 visSection:AddToggle("Chams", {
     Title = "Chams (glow)", Icon = "solar/glow-bold", Default = false,
@@ -703,14 +692,12 @@ visSection:AddToggle("Chams", {
     end,
 })
 
--- FOV
 visSection:AddSlider("FOV", {
     Title = "Field of View", Icon = "solar/zoom-in-bold",
     Min = 1, Max = 120, Default = 70, Rounding = 0,
     Callback = function(v) Camera.FieldOfView = v end,
 })
 
--- Crosshair
 local crosshairEnabled = false
 local crosshair = Instance.new("Frame")
 crosshair.Size = UDim2.new(0, 4, 0, 4)
@@ -732,7 +719,6 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
--- Speed Meter
 local speedMeterEnabled = false
 local speedLabel = Instance.new("TextLabel")
 speedLabel.Size = UDim2.new(0, 120, 0, 30)
@@ -761,7 +747,6 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
--- Fullbright
 visSection:AddToggle("Fullbright", {
     Title = "Fullbright (Night Vision)", Icon = "solar/sun-bold", Default = false,
     Callback = function(v)
@@ -894,7 +879,6 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
--- Kill Aura
 local killAuraEnabled = false
 local killAuraRange = 20
 local killAuraDamage = 10
@@ -941,7 +925,6 @@ end)
 -- ===================== MISC TAB =====================
 local miscSection = Tabs.Misc:AddSection("Utility", "solar/tuning-square-bold")
 
--- Anti-AFK
 miscSection:AddToggle("AntiAFK", {
     Title = "Anti-AFK", Icon = "solar/clock-bold", Default = false,
     Callback = function(v)
@@ -961,7 +944,6 @@ miscSection:AddToggle("AntiAFK", {
     end,
 })
 
--- Infinite Stamina
 miscSection:AddToggle("InfiniteStamina", {
     Title = "Infinite Stamina", Icon = "solar/bolt-bold", Default = false,
     Callback = function(v)
@@ -984,7 +966,6 @@ miscSection:AddToggle("InfiniteStamina", {
     end,
 })
 
--- Player List
 local playerListEnabled = false
 local playerListGui = Instance.new("ScreenGui")
 playerListGui.Parent = LocalPlayer.PlayerGui
@@ -1070,23 +1051,37 @@ task.spawn(function()
     end
 end)
 
--- ===================== APPEARANCE TAB (Themes only – no fonts) =====================
+-- ===================== APPEARANCE TAB =====================
 local secThemes = Tabs.Appearance:AddSection("Themes", "solar/palette-bold")
 secThemes:AddParagraph({
-    Title = "Built-in & Custom Themes",
-    Content = "Click any button to apply a theme.",
+    Title = "Built-in Themes",
+    Content = "Click any button to instantly apply that theme.",
 })
+
 for _, name in ipairs({
     "Amoled","Ash Gray","Blood Red","Cyanic","Amber Glow","Deep Violet",
     "Neon Cyber","Neon Purple","Royal Blue","Deep Ocean","Rgb","Orange",
     "Charcoal","Pearl White","Midnight","Galaxy Purple","Cosmic Violet",
-    "Cotton Candy","Arctic Frost"
+    "Cotton Candy","Arctic Frost",
 }) do
-    secThemes:AddButton({ Title = name, Icon = "solar/palette-bold", Callback = function() Fluent:SetTheme(name); Notify("Theme", name .. " applied", "Info", nil, 2) end })
+    secThemes:AddButton({
+        Title = name, Icon = "solar/palette-bold",
+        Callback = function()
+            Fluent:SetTheme(name)
+            Notify("Theme", name .. " applied", "Info", nil, 2)
+        end,
+    })
 end
-local secCustom = Tabs.Appearance:AddSection("Custom Themes", "solar/star-bold")
+
+local secCustomThemes = Tabs.Appearance:AddSection("Custom Themes", "solar/star-bold")
 for _, name in ipairs({"NeonBlue","EmeraldDark","Sunset","SlateStatic","SlateAnimated"}) do
-    secCustom:AddButton({ Title = name, Icon = "solar/star-bold", Callback = function() Fluent:SetTheme(name); Notify("Theme", name .. " applied", "Success", nil, 2) end })
+    secCustomThemes:AddButton({
+        Title = name, Icon = "solar/star-bold",
+        Callback = function()
+            Fluent:SetTheme(name)
+            Notify("Theme", name .. " applied", "Success", nil, 2)
+        end,
+    })
 end
 
 -- ===================== SETTINGS TAB =====================
@@ -1107,7 +1102,7 @@ FloatingButtonManager:SetFolder("FluentShowcase/Floating")
 FloatingButtonManager:BuildConfigSection(Tabs.Settings)
 FloatingButtonManager:LoadAutoloadConfig()
 
--- ===================== FLOATING BUTTON =====================
+-- ===================== FLOATING OPEN BUTTON =====================
 local toggleGui = Instance.new("ScreenGui")
 toggleGui.Name = "OpenUi"
 toggleGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
@@ -1150,6 +1145,7 @@ Instance.new("UICorner", frontImage).CornerRadius = UDim.new(0.2, 0)
 local rotation = 0
 local rotSpeed = 90
 local lastTime = tick()
+
 task.spawn(function()
     while true do
         local now = tick()
@@ -1165,16 +1161,19 @@ local function MakeDraggableOpenUi(topbar, obj)
     local dragging, dragInput, dragStart, startPos = false, nil, nil, nil
     local holdingDrag, holdToken = false, 0
     obj:SetAttribute("Locked", false)
+
     local function Update(input)
         if obj:GetAttribute("Locked") then return end
         local delta = input.Position - dragStart
         obj.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
+
     local function ToggleLock()
         local newState = not obj:GetAttribute("Locked")
         obj:SetAttribute("Locked", newState)
         Notify(newState and "Locked" or "Unlocked", newState and "Locked in place" or "Can be moved", "Info", nil, 2)
     end
+
     topbar.InputBegan:Connect(function(input)
         if input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch then return end
         dragging = not obj:GetAttribute("Locked")
@@ -1193,6 +1192,7 @@ local function MakeDraggableOpenUi(topbar, obj)
             end
         end)
     end)
+
     topbar.InputChanged:Connect(function(input)
         if not dragStart then return end
         if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
@@ -1200,6 +1200,7 @@ local function MakeDraggableOpenUi(topbar, obj)
             dragInput = input
         end
     end)
+
     UserInputService.InputChanged:Connect(function(input)
         if input == dragInput and dragging then Update(input) end
     end)
@@ -1208,6 +1209,7 @@ end
 MakeDraggableOpenUi(mainBtn, mainBtn)
 
 local uiOpen = true
+
 local function PlaySound(soundId)
     local sound = Instance.new("Sound")
     pcall(function() sound.SoundId = "rbxassetid://" .. soundId end)
@@ -1215,11 +1217,13 @@ local function PlaySound(soundId)
     pcall(function() sound:Play() end)
     sound.Ended:Connect(function() sound:Destroy() end)
 end
+
 mainBtn.MouseButton1Click:Connect(function()
     local sounds = { "7127123605", "438666542" }
     PlaySound(sounds[math.random(#sounds)])
     uiOpen = not uiOpen
     if uiOpen then Window:Show() else Window:Hide() end
+
     local function SmoothSpeed(target, dur)
         local start = rotSpeed
         local steps = 30
@@ -1229,6 +1233,7 @@ mainBtn.MouseButton1Click:Connect(function()
         end
         rotSpeed = target
     end
+
     task.spawn(function()
         SmoothSpeed(360, 0.4)
         task.wait(0.5)
@@ -1241,14 +1246,14 @@ end)
 FloatingButtonManager:AddButton("OpenUiBtn", mainBtn, false, false, nil, mainBtn)
 
 -- ===================== INITIALISE =====================
-Notify("FluentPro", "Ultimate Pack (Complete) Loaded!", "Success", "solar/planet-bold", 4)
+Notify("FluentPro", "Ultimate Pack (Final) Loaded!", "Success", "solar/planet-bold", 4)
 
--- Connect ESP
 Players.PlayerAdded:Connect(createESP)
 Players.PlayerRemoving:Connect(removeESP)
 for _, p in ipairs(Players:GetPlayers()) do
     if p ~= LocalPlayer then createESP(p) end
 end
+
 RunService.RenderStepped:Connect(updateESP)
 
 task.delay(0.5, function() Window:SelectTab(1) end)
