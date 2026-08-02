@@ -1,6 +1,6 @@
 -- ============================================================
---  FLUENTPRO – ULTIMATE FEATURE PACK (FINAL)
---  All features, no font buttons, safe E-Spam.
+--  FLUENTPRO – ULTIMATE PACK (FULL + FIXED BUTTON)
+--  All features, visible draggable open/close button.
 -- ============================================================
 
 local Fluent = loadstring(game:HttpGet("https://github.com/StyearX/Fluent-modded/releases/download/1.5.1/FluentPro"))()
@@ -17,7 +17,7 @@ local function Notify(title, content, ntype, icon, duration)
     Fluent:Notify({Title=title, Content=content, Type=ntype or "Info", Icon=icon, Duration=duration or 3})
 end
 
--- ===================== CUSTOM THEMES (fully defined) =====================
+-- ===================== CUSTOM THEMES =====================
 Fluent:RegisterCustomTheme("NeonBlue", {
     Accent = Color3.fromRGB(0, 180, 255),
     AcrylicMain = Color3.fromRGB(10, 14, 28),
@@ -362,6 +362,7 @@ secJump:AddSlider("JumpPower", {
     end,
 })
 
+-- Fly
 local flyEnabled = false
 local flySpeed = 50
 local flyConnection
@@ -1102,7 +1103,7 @@ FloatingButtonManager:SetFolder("FluentShowcase/Floating")
 FloatingButtonManager:BuildConfigSection(Tabs.Settings)
 FloatingButtonManager:LoadAutoloadConfig()
 
--- ===================== FLOATING OPEN BUTTON =====================
+-- ===================== SIMPLIFIED OPEN/CLOSE BUTTON =====================
 local toggleGui = Instance.new("ScreenGui")
 toggleGui.Name = "OpenUi"
 toggleGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
@@ -1112,140 +1113,43 @@ toggleGui.ResetOnSpawn = false
 local mainBtn = Instance.new("TextButton")
 mainBtn.Name = "OpenButton"
 mainBtn.Parent = toggleGui
-mainBtn.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-mainBtn.BackgroundTransparency = 1
-mainBtn.Position = UDim2.new(0.101969875, 0, 0.110441767, 0)
-mainBtn.Size = UDim2.new(0, 64, 0, 42)
-mainBtn.Text = ""
+mainBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 50)
+mainBtn.BackgroundTransparency = 0.2
+mainBtn.Position = UDim2.new(0.9, -60, 0.9, -60)
+mainBtn.Size = UDim2.new(0, 55, 0, 55)
+mainBtn.Text = "⚙️"
+mainBtn.TextColor3 = Color3.fromRGB(255,255,255)
+mainBtn.TextSize = 30
+mainBtn.Font = Enum.Font.GothamBold
 mainBtn.Visible = true
-Instance.new("UICorner", mainBtn)
+Instance.new("UICorner", mainBtn).CornerRadius = UDim.new(1, 0)
 
-local sizeBackMulti = 0.3
-local backgroundImage = Instance.new("ImageLabel")
-backgroundImage.Name = "RotatingBackground"
-backgroundImage.Parent = mainBtn
-backgroundImage.Size = UDim2.new(2.3 + sizeBackMulti, 0, 2.3 + sizeBackMulti, 0)
-backgroundImage.Position = UDim2.new(0.5, 0, 0.5, 0)
-backgroundImage.AnchorPoint = Vector2.new(0.5, 0.5)
-backgroundImage.BackgroundTransparency = 1
-backgroundImage.Image = "rbxassetid://109694296016043"
-backgroundImage.SizeConstraint = Enum.SizeConstraint.RelativeXX
-
-local frontImage = Instance.new("ImageLabel")
-frontImage.Name = "StaticIcon"
-frontImage.Parent = mainBtn
-frontImage.Size = UDim2.fromOffset(55, 55)
-frontImage.Position = UDim2.new(0.5, 0, 0.5, 0)
-frontImage.AnchorPoint = Vector2.new(0.5, 0.5)
-frontImage.BackgroundTransparency = 1
-frontImage.Image = "rbxassetid://84435108807782"
-frontImage.ZIndex = 1
-Instance.new("UICorner", frontImage).CornerRadius = UDim.new(0.2, 0)
-
-local rotation = 0
-local rotSpeed = 90
-local lastTime = tick()
-
-task.spawn(function()
-    while true do
-        local now = tick()
-        local delta = now - lastTime
-        lastTime = now
-        rotation = (rotation + rotSpeed * delta) % 360
-        backgroundImage.Rotation = rotation
-        task.wait()
-    end
+-- Drag logic
+local dragging = false
+local dragStart, startPos
+mainBtn.MouseButton1Down:Connect(function(input)
+    dragging = true
+    dragStart = input.Position
+    startPos = mainBtn.Position
+end)
+mainBtn.MouseButton1Up:Connect(function()
+    dragging = false
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if not dragging then return end
+    if input.UserInputType ~= Enum.UserInputType.MouseMovement then return end
+    local delta = input.Position - dragStart
+    mainBtn.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end)
 
-local function MakeDraggableOpenUi(topbar, obj)
-    local dragging, dragInput, dragStart, startPos = false, nil, nil, nil
-    local holdingDrag, holdToken = false, 0
-    obj:SetAttribute("Locked", false)
-
-    local function Update(input)
-        if obj:GetAttribute("Locked") then return end
-        local delta = input.Position - dragStart
-        obj.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-
-    local function ToggleLock()
-        local newState = not obj:GetAttribute("Locked")
-        obj:SetAttribute("Locked", newState)
-        Notify(newState and "Locked" or "Unlocked", newState and "Locked in place" or "Can be moved", "Info", nil, 2)
-    end
-
-    topbar.InputBegan:Connect(function(input)
-        if input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch then return end
-        dragging = not obj:GetAttribute("Locked")
-        holdingDrag = true
-        dragStart = input.Position
-        startPos = obj.Position
-        holdToken = holdToken + 1
-        local token = holdToken
-        task.delay(1.0, function()
-            if holdingDrag and token == holdToken then ToggleLock() end
-        end)
-        input.Changed:Connect(function()
-            if input.UserInputState == Enum.UserInputState.End then
-                dragging = false
-                holdingDrag = false
-            end
-        end)
-    end)
-
-    topbar.InputChanged:Connect(function(input)
-        if not dragStart then return end
-        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
-            if (input.Position - dragStart).Magnitude > 6 then holdingDrag = false end
-            dragInput = input
-        end
-    end)
-
-    UserInputService.InputChanged:Connect(function(input)
-        if input == dragInput and dragging then Update(input) end
-    end)
-end
-
-MakeDraggableOpenUi(mainBtn, mainBtn)
-
+-- Toggle UI
 local uiOpen = true
-
-local function PlaySound(soundId)
-    local sound = Instance.new("Sound")
-    pcall(function() sound.SoundId = "rbxassetid://" .. soundId end)
-    sound.Parent = game:GetService("SoundService")
-    pcall(function() sound:Play() end)
-    sound.Ended:Connect(function() sound:Destroy() end)
-end
-
 mainBtn.MouseButton1Click:Connect(function()
-    local sounds = { "7127123605", "438666542" }
-    PlaySound(sounds[math.random(#sounds)])
     uiOpen = not uiOpen
     if uiOpen then Window:Show() else Window:Hide() end
-
-    local function SmoothSpeed(target, dur)
-        local start = rotSpeed
-        local steps = 30
-        for i = 1, steps do
-            rotSpeed = start + (target - start) * (i / steps)
-            task.wait(dur / steps)
-        end
-        rotSpeed = target
-    end
-
-    task.spawn(function()
-        SmoothSpeed(360, 0.4)
-        task.wait(0.5)
-        SmoothSpeed(180, 0.4)
-        task.wait(0.3)
-        SmoothSpeed(90, 0.4)
-    end)
 end)
 
-FloatingButtonManager:AddButton("OpenUiBtn", mainBtn, false, false, nil, mainBtn)
-
--- ===================== INITIALISE =====================
+-- ===================== INIT =====================
 Notify("FluentPro", "Ultimate Pack (Final) Loaded!", "Success", "solar/planet-bold", 4)
 
 Players.PlayerAdded:Connect(createESP)
@@ -1256,4 +1160,5 @@ end
 
 RunService.RenderStepped:Connect(updateESP)
 
+Window:Show()
 task.delay(0.5, function() Window:SelectTab(1) end)
