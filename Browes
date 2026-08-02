@@ -1,7 +1,10 @@
 -- ============================================================
---  FLUENTPRO – ULTIMATE FEATURE PACK (FULL)
---  Total lines: ~840
---  All features included, error‑handled for missing modules
+--  FLUENTPRO – ULTIMATE FEATURE PACK (COMPLETE)
+--  Tabs: Main, Movement, Visual, Radar, Auto, Misc, Appearance, Settings
+--  Features: Speed, Jump, Fly, Noclip, Dash, BunnyHop, Glide, Sprint,
+--  ESP (Names/Boxes/Health/Tracers/Color/Distance), Chams, FOV, Crosshair,
+--  SpeedMeter, Fullbright, Radar, AutoHeal, KillAura, AntiAFK, InfiniteStamina,
+--  PlayerList, E-Spam, 20+ themes.
 -- ============================================================
 
 local Fluent = loadstring(game:HttpGet("https://github.com/StyearX/Fluent-modded/releases/download/1.5.1/FluentPro"))()
@@ -9,11 +12,10 @@ local Fluent = loadstring(game:HttpGet("https://github.com/StyearX/Fluent-modded
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
-local TweenService = game:GetService("TweenService")
-local VirtualInputManager = game:GetService("VirtualInputManager")
 local LocalPlayer = Players.LocalPlayer
 local Lighting = game:GetService("Lighting")
 local Camera = workspace.CurrentCamera
+local VirtualInputManager = pcall(function() return game:GetService("VirtualInputManager") end) and game:GetService("VirtualInputManager") or nil
 
 local function Notify(title, content, ntype, icon, duration)
     Fluent:Notify({Title=title, Content=content, Type=ntype or "Info", Icon=icon, Duration=duration or 3})
@@ -311,8 +313,8 @@ Fluent:RegisterCustomTheme("SlateAnimated", {
 -- ===================== MAIN WINDOW =====================
 local Window = Fluent:CreateWindow({
     Title = "FluentPro",
-    SubTitle = "Ultimate Feature Pack",
-    Version = "v3.1",
+    SubTitle = "Ultimate Pack (Complete)",
+    Version = "v3.2",
     TabWidth = 130,
     Size = UDim2.fromOffset(500, 520),
     Acrylic = true,
@@ -331,7 +333,7 @@ Fluent:SetErrorHandler(function(msg, fullErr)
     pcall(function() Notify("Error", tostring(msg), "Error", nil, 5) end)
 end)
 
--- ===================== TABS =====================
+-- ===================== TABS (8 tabs) =====================
 local Tabs = {
     Main = Window:AddTab({ Title = "Main", Icon = "solar/home-bold" }),
     Movement = Window:AddTab({ Title = "Movement", Icon = "solar/running-bold" }),
@@ -343,86 +345,62 @@ local Tabs = {
     Settings = Window:AddTab({ Title = "Settings", Icon = "solar/settings-bold" }),
 }
 
--- ===================== MAIN TAB =====================
+-- ===================== MAIN TAB (Speed, Jump, Fly) =====================
 local secSpeed = Tabs.Main:AddSection("Speed", "solar/running-bold")
 secSpeed:AddSlider("WalkSpeed", {
-    Title = "Walk Speed",
-    Icon = "solar/running-bold",
+    Title = "Walk Speed", Icon = "solar/running-bold",
     Min = 1, Max = 500, Default = 16, Rounding = 0,
     Callback = function(v)
         local chr = LocalPlayer.Character
-        if chr and chr:FindFirstChild("Humanoid") then
-            chr.Humanoid.WalkSpeed = v
-        end
+        if chr and chr:FindFirstChild("Humanoid") then chr.Humanoid.WalkSpeed = v end
     end,
 })
 
 local secJump = Tabs.Main:AddSection("Jump", "solar/arrow-up-bold")
 secJump:AddSlider("JumpPower", {
-    Title = "Jump Power",
-    Icon = "solar/arrow-up-bold",
+    Title = "Jump Power", Icon = "solar/arrow-up-bold",
     Min = 10, Max = 500, Default = 50, Rounding = 0,
     Callback = function(v)
         local chr = LocalPlayer.Character
-        if chr and chr:FindFirstChild("Humanoid") then
-            chr.Humanoid.JumpPower = v
-        end
+        if chr and chr:FindFirstChild("Humanoid") then chr.Humanoid.JumpPower = v end
     end,
 })
 
 -- Fly
-local flyConnection
 local flyEnabled = false
 local flySpeed = 50
-
+local flyConnection
 local function startFly()
     local player = LocalPlayer
     local char = player.Character or player.CharacterAdded:Wait()
     local humanoid = char:WaitForChild("Humanoid")
     local rootPart = char:WaitForChild("HumanoidRootPart")
-
     local bodyGyro = Instance.new("BodyGyro")
-    bodyGyro.MaxTorque = Vector3.new(1, 1, 1) * 40000
+    bodyGyro.MaxTorque = Vector3.new(1,1,1)*40000
     bodyGyro.CFrame = rootPart.CFrame
     bodyGyro.Parent = rootPart
-
     local bodyVelocity = Instance.new("BodyVelocity")
-    bodyVelocity.MaxForce = Vector3.new(1, 1, 1) * 40000
+    bodyVelocity.MaxForce = Vector3.new(1,1,1)*40000
     bodyVelocity.Velocity = Vector3.zero
     bodyVelocity.Parent = rootPart
-
     humanoid.PlatformStand = true
-
     flyConnection = RunService.RenderStepped:Connect(function()
-        if not flyEnabled or not char.Parent then
-            flyConnection:Disconnect()
-            return
-        end
-
-        local camera = workspace.CurrentCamera
+        if not flyEnabled or not char.Parent then flyConnection:Disconnect() return end
+        local camera = Camera
         bodyGyro.CFrame = camera.CFrame
-
         local moveDir = Vector3.zero
         if UserInputService:IsKeyDown(Enum.KeyCode.W) then moveDir += camera.CFrame.LookVector end
         if UserInputService:IsKeyDown(Enum.KeyCode.S) then moveDir -= camera.CFrame.LookVector end
         if UserInputService:IsKeyDown(Enum.KeyCode.A) then moveDir -= camera.CFrame.RightVector end
         if UserInputService:IsKeyDown(Enum.KeyCode.D) then moveDir += camera.CFrame.RightVector end
-        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then moveDir += Vector3.new(0, 1, 0) end
-        if UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then moveDir -= Vector3.new(0, 1, 0) end
-
+        if UserInputService:IsKeyDown(Enum.KeyCode.Space) then moveDir += Vector3.new(0,1,0) end
+        if UserInputService:IsKeyDown(Enum.KeyCode.LeftShift) then moveDir -= Vector3.new(0,1,0) end
         bodyVelocity.Velocity = (moveDir.Magnitude > 0 and moveDir.Unit or Vector3.zero) * flySpeed
     end)
-
-    local function onCharRemoved()
-        flyEnabled = false
-        if flyConnection then flyConnection:Disconnect() end
-    end
+    local function onCharRemoved() flyEnabled = false; if flyConnection then flyConnection:Disconnect() end end
     humanoid.Died:Connect(onCharRemoved)
-    char.AncestryChanged:Connect(function(_, parent)
-        if not parent then onCharRemoved() end
-    end)
+    char.AncestryChanged:Connect(function(_, parent) if not parent then onCharRemoved() end end)
 end
-
 local function stopFly()
     flyEnabled = false
     if flyConnection then flyConnection:Disconnect(); flyConnection = nil end
@@ -432,34 +410,24 @@ local function stopFly()
         if humanoid then humanoid.PlatformStand = false end
         local rootPart = char:FindFirstChild("HumanoidRootPart")
         if rootPart then
-            local bv = rootPart:FindFirstChild("BodyVelocity")
-            if bv then bv:Destroy() end
-            local bg = rootPart:FindFirstChild("BodyGyro")
-            if bg then bg:Destroy() end
+            local bv = rootPart:FindFirstChild("BodyVelocity"); if bv then bv:Destroy() end
+            local bg = rootPart:FindFirstChild("BodyGyro"); if bg then bg:Destroy() end
         end
     end
 end
-
 local secFly = Tabs.Main:AddSection("Fly", "solar/rocket-bold")
 secFly:AddToggle("FlyEnabled", {
-    Title = "Enable Fly",
-    Icon = "solar/rocket-bold",
-    Default = false,
-    Callback = function(v)
-        flyEnabled = v
-        if v then startFly() else stopFly() end
-    end,
+    Title = "Enable Fly", Icon = "solar/rocket-bold", Default = false,
+    Callback = function(v) flyEnabled = v; if v then startFly() else stopFly() end end
 })
 secFly:AddSlider("FlySpeed", {
-    Title = "Fly Speed",
-    Icon = "solar/speedometer-bold",
+    Title = "Fly Speed", Icon = "solar/speedometer-bold",
     Min = 10, Max = 200, Default = 50, Rounding = 0,
-    Callback = function(v) flySpeed = v end,
+    Callback = function(v) flySpeed = v end
 })
 
 -- ===================== MOVEMENT TAB =====================
 local moveSection = Tabs.Movement:AddSection("Abilities", "solar/arrows-bold")
-
 -- Noclip
 local noclipEnabled = false
 moveSection:AddToggle("Noclip", {
@@ -469,30 +437,22 @@ moveSection:AddToggle("Noclip", {
         local char = LocalPlayer.Character
         if char then
             for _, part in ipairs(char:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    part.CanCollide = not v
-                end
+                if part:IsA("BasePart") then part.CanCollide = not v end
             end
         end
     end,
 })
-
 -- Dash
 moveSection:AddKeybind("DashKey", {
-    Title = "Dash (forward)", Icon = "solar/record-bold",
-    Default = Enum.KeyCode.Q,
+    Title = "Dash (forward)", Icon = "solar/record-bold", Default = Enum.KeyCode.Q,
     Callback = function()
         local char = LocalPlayer.Character
         if char then
             local root = char:FindFirstChild("HumanoidRootPart")
-            if root then
-                local dir = Camera.CFrame.LookVector * 50
-                root.CFrame = root.CFrame + dir
-            end
+            if root then root.CFrame = root.CFrame + Camera.CFrame.LookVector * 50 end
         end
     end,
 })
-
 -- Bunny Hop
 local bunnyHop = false
 moveSection:AddToggle("BunnyHop", {
@@ -505,13 +465,10 @@ UserInputService.InputBegan:Connect(function(input, gameProcessed)
         local char = LocalPlayer.Character
         if char and char:FindFirstChild("Humanoid") then
             local hum = char.Humanoid
-            if hum.FloorMaterial ~= Enum.Material.Air then
-                hum:ChangeState(Enum.HumanoidStateType.Jumping)
-            end
+            if hum.FloorMaterial ~= Enum.Material.Air then hum:ChangeState(Enum.HumanoidStateType.Jumping) end
         end
     end
 end)
-
 -- Glide
 local glideEnabled = false
 moveSection:AddToggle("Glide", {
@@ -529,16 +486,11 @@ RunService.Heartbeat:Connect(function()
         end
     end
 end)
-
 -- Sprint Multiplier
 local sprintMultiplier = 1.5
 local shiftHeld = false
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if input.KeyCode == Enum.KeyCode.LeftShift then shiftHeld = true end
-end)
-UserInputService.InputEnded:Connect(function(input)
-    if input.KeyCode == Enum.KeyCode.LeftShift then shiftHeld = false end
-end)
+UserInputService.InputBegan:Connect(function(input) if input.KeyCode == Enum.KeyCode.LeftShift then shiftHeld = true end end)
+UserInputService.InputEnded:Connect(function(input) if input.KeyCode == Enum.KeyCode.LeftShift then shiftHeld = false end end)
 moveSection:AddSlider("SprintMultiplier", {
     Title = "Sprint Multiplier", Icon = "solar/running-bold",
     Min = 1, Max = 3, Default = 1.5, Rounding = 1,
@@ -548,9 +500,7 @@ RunService.Heartbeat:Connect(function()
     local char = LocalPlayer.Character
     if char and char:FindFirstChild("Humanoid") then
         local hum = char.Humanoid
-        if shiftHeld then
-            hum.WalkSpeed = hum.WalkSpeed * sprintMultiplier
-        end
+        if shiftHeld then hum.WalkSpeed = hum.WalkSpeed * sprintMultiplier end
     end
 end)
 
@@ -1105,126 +1055,42 @@ miscSection:AddSlider("ESpamInterval", {
 task.spawn(function()
     while true do
         if eSpamEnabled then
-            VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
-            task.wait(eSpamInterval)
-            VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
-            task.wait(eSpamInterval)
+            if VirtualInputManager then
+                VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+                task.wait(eSpamInterval)
+                VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+                task.wait(eSpamInterval)
+            else
+                warn("VirtualInputManager missing – E-Spam disabled")
+                eSpamEnabled = false
+            end
         else
             task.wait(0.5)
         end
     end
 end)
 
--- ===================== APPEARANCE TAB =====================
+-- ===================== APPEARANCE TAB (Themes only – no fonts) =====================
 local secThemes = Tabs.Appearance:AddSection("Themes", "solar/palette-bold")
 secThemes:AddParagraph({
-    Title = "Built-in Themes",
-    Content = "Click any button to instantly apply that theme. Custom themes like NeonBlue, EmeraldDark, Sunset, SlateStatic, and SlateAnimated are also available.",
+    Title = "Built-in & Custom Themes",
+    Content = "Click any button to apply a theme.",
 })
-
 for _, name in ipairs({
     "Amoled","Ash Gray","Blood Red","Cyanic","Amber Glow","Deep Violet",
     "Neon Cyber","Neon Purple","Royal Blue","Deep Ocean","Rgb","Orange",
     "Charcoal","Pearl White","Midnight","Galaxy Purple","Cosmic Violet",
-    "Cotton Candy","Arctic Frost",
+    "Cotton Candy","Arctic Frost"
 }) do
-    secThemes:AddButton({
-        Title = name, Icon = "solar/palette-bold",
-        Callback = function()
-            Fluent:SetTheme(name)
-            Notify("Theme", name .. " applied", "Info", nil, 2)
-        end,
-    })
+    secThemes:AddButton({ Title = name, Icon = "solar/palette-bold", Callback = function() Fluent:SetTheme(name); Notify("Theme", name .. " applied", "Info", nil, 2) end })
 end
-
-local secCustomThemes = Tabs.Appearance:AddSection("Custom Themes", "solar/star-bold")
-secCustomThemes:AddButton({
-    Title = "Apply NeonBlue", Icon = "solar/star-bold",
-    Callback = function()
-        Fluent:SetTheme("NeonBlue")
-        Notify("Theme", "NeonBlue applied", "Success", nil, 2)
-    end,
-})
-secCustomThemes:AddButton({
-    Title = "Apply EmeraldDark", Icon = "solar/leaf-bold",
-    Callback = function()
-        Fluent:SetTheme("EmeraldDark")
-        Notify("Theme", "EmeraldDark applied", "Success", nil, 2)
-    end,
-})
-secCustomThemes:AddButton({
-    Title = "Apply Sunset", Icon = "solar/sun-bold",
-    Callback = function()
-        Fluent:SetTheme("Sunset")
-        Notify("Theme", "Sunset applied", "Success", nil, 2)
-    end,
-})
-secCustomThemes:AddButton({
-    Title = "SlateStatic (no animation)", Icon = "solar/pause-circle-bold",
-    Callback = function()
-        Fluent:SetTheme("SlateStatic")
-        Notify("Theme", "SlateStatic applied", "Info", nil, 2)
-    end,
-})
-secCustomThemes:AddButton({
-    Title = "SlateAnimated (animation on)", Icon = "solar/play-circle-bold",
-    Callback = function()
-        Fluent:SetTheme("SlateAnimated")
-        Notify("Theme", "SlateAnimated applied", "Info", nil, 2)
-    end,
-})
-
--- Fonts (with safe fallback)
-local secFonts = Tabs.Appearance:AddSection("Fonts", "solar/text-bold")
-secFonts:AddParagraph({
-    Title = "Custom Font Selection",
-    Content = "Change the entire UI font. (Some executors may not support this, but it won't break anything.)",
-})
-
-local function safeFontAction(action)
-    local success, err = pcall(action)
-    if not success then
-        Notify("Font", "Font change failed – your executor may not support it.", "Warning", nil, 3)
-        warn("Font error: " .. tostring(err))
-    end
+local secCustom = Tabs.Appearance:AddSection("Custom Themes", "solar/star-bold")
+for _, name in ipairs({"NeonBlue","EmeraldDark","Sunset","SlateStatic","SlateAnimated"}) do
+    secCustom:AddButton({ Title = name, Icon = "solar/star-bold", Callback = function() Fluent:SetTheme(name); Notify("Theme", name .. " applied", "Success", nil, 2) end })
 end
-
-secFonts:AddButton({
-    Title = "BuilderSans (rbxasset)",
-    Icon = "solar/text-bold",
-    Callback = function()
-        safeFontAction(function()
-            InterfaceManager:ApplyCustomFont("rbxasset://fonts/families/BuilderSans.json", Enum.FontWeight.Medium)
-            Notify("Font", "Applied BuilderSans", "Success", nil, 3)
-        end)
-    end,
-})
-
-secFonts:AddButton({
-    Title = "Custom rbxassetid Font",
-    Icon = "solar/upload-minimalistic-bold",
-    Callback = function()
-        safeFontAction(function()
-            InterfaceManager:ApplyCustomFont("rbxassetid://12187365364", Enum.FontWeight.Regular)
-            Notify("Font", "Applied custom font", "Success", nil, 3)
-        end)
-    end,
-})
-
-secFonts:AddButton({
-    Title = "Default (GothamSSm)",
-    Icon = "solar/restart-bold",
-    Callback = function()
-        safeFontAction(function()
-            InterfaceManager:ApplyCustomFont("GothamSSm")
-            Notify("Font", "Reverted to GothamSSm", "Info", nil, 3)
-        end)
-    end,
-})
 
 -- ===================== SETTINGS TAB =====================
 MediaManager:SetFolder("FluentShowcase/MediaCache")
-
 InterfaceManager:SetLibrary(Fluent)
 InterfaceManager:SetFolder("FluentShowcase")
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
@@ -1241,7 +1107,7 @@ FloatingButtonManager:SetFolder("FluentShowcase/Floating")
 FloatingButtonManager:BuildConfigSection(Tabs.Settings)
 FloatingButtonManager:LoadAutoloadConfig()
 
--- ===================== OPEN UI TOGGLE BUTTON =====================
+-- ===================== FLOATING BUTTON =====================
 local toggleGui = Instance.new("ScreenGui")
 toggleGui.Name = "OpenUi"
 toggleGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
@@ -1284,7 +1150,6 @@ Instance.new("UICorner", frontImage).CornerRadius = UDim.new(0.2, 0)
 local rotation = 0
 local rotSpeed = 90
 local lastTime = tick()
-
 task.spawn(function()
     while true do
         local now = tick()
@@ -1300,19 +1165,16 @@ local function MakeDraggableOpenUi(topbar, obj)
     local dragging, dragInput, dragStart, startPos = false, nil, nil, nil
     local holdingDrag, holdToken = false, 0
     obj:SetAttribute("Locked", false)
-
     local function Update(input)
         if obj:GetAttribute("Locked") then return end
         local delta = input.Position - dragStart
         obj.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
     end
-
     local function ToggleLock()
         local newState = not obj:GetAttribute("Locked")
         obj:SetAttribute("Locked", newState)
         Notify(newState and "Locked" or "Unlocked", newState and "Locked in place" or "Can be moved", "Info", nil, 2)
     end
-
     topbar.InputBegan:Connect(function(input)
         if input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch then return end
         dragging = not obj:GetAttribute("Locked")
@@ -1331,7 +1193,6 @@ local function MakeDraggableOpenUi(topbar, obj)
             end
         end)
     end)
-
     topbar.InputChanged:Connect(function(input)
         if not dragStart then return end
         if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
@@ -1339,7 +1200,6 @@ local function MakeDraggableOpenUi(topbar, obj)
             dragInput = input
         end
     end)
-
     UserInputService.InputChanged:Connect(function(input)
         if input == dragInput and dragging then Update(input) end
     end)
@@ -1348,7 +1208,6 @@ end
 MakeDraggableOpenUi(mainBtn, mainBtn)
 
 local uiOpen = true
-
 local function PlaySound(soundId)
     local sound = Instance.new("Sound")
     pcall(function() sound.SoundId = "rbxassetid://" .. soundId end)
@@ -1356,13 +1215,11 @@ local function PlaySound(soundId)
     pcall(function() sound:Play() end)
     sound.Ended:Connect(function() sound:Destroy() end)
 end
-
 mainBtn.MouseButton1Click:Connect(function()
     local sounds = { "7127123605", "438666542" }
     PlaySound(sounds[math.random(#sounds)])
     uiOpen = not uiOpen
     if uiOpen then Window:Show() else Window:Hide() end
-
     local function SmoothSpeed(target, dur)
         local start = rotSpeed
         local steps = 30
@@ -1372,7 +1229,6 @@ mainBtn.MouseButton1Click:Connect(function()
         end
         rotSpeed = target
     end
-
     task.spawn(function()
         SmoothSpeed(360, 0.4)
         task.wait(0.5)
@@ -1384,18 +1240,15 @@ end)
 
 FloatingButtonManager:AddButton("OpenUiBtn", mainBtn, false, false, nil, mainBtn)
 
--- ===================== INITIALISATION =====================
-Notify("FluentPro", "Ultimate Pack Loaded! (v3.1)", "Success", "solar/planet-bold", 4)
+-- ===================== INITIALISE =====================
+Notify("FluentPro", "Ultimate Pack (Complete) Loaded!", "Success", "solar/planet-bold", 4)
 
--- Connect ESP events
+-- Connect ESP
 Players.PlayerAdded:Connect(createESP)
 Players.PlayerRemoving:Connect(removeESP)
 for _, p in ipairs(Players:GetPlayers()) do
     if p ~= LocalPlayer then createESP(p) end
 end
-
 RunService.RenderStepped:Connect(updateESP)
 
-task.delay(0.5, function()
-    Window:SelectTab(1)
-end)
+task.delay(0.5, function() Window:SelectTab(1) end)
